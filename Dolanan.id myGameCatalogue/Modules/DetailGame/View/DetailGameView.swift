@@ -15,8 +15,12 @@ struct GameDetailView: View {
   @Environment(\.openURL) var openURL
   @Environment(\.colorScheme) var colorScheme
 
+  var id: Int?
   var game: GameModel
   @ObservedObject var detailPresenter: DetailGamePresenter
+  @ObservedObject var favoriteGamePresenter: FavoriteGamePresenter
+
+  @State var isFavorite: Bool = false
 
   let hapticFeebackMedium = UIImpactFeedbackGenerator(style: .medium)
 
@@ -60,18 +64,18 @@ struct GameDetailView: View {
           //            .padding(.top, -10)
 
           //          HStack(spacing: 15) {
-          //            if gameFavoriteData.items.filter { $0.id == self.id }.count > 0 {
-          //              Button(action: {
-          //                removeBookmarkButtonTap()
-          //              }) {
-          //                HStack {
-          //                  Text("Remove")
-          //                    .font(.body)
-          //                    .fontWeight(.bold)
-          //                  Image(systemName: "star.fill")
-          //                }
-          //              }.buttonStyle(RemoveBookmarkButtonStyle())
-          //            } else {
+                      if isFavorite {
+                        Button(action: {
+                          removeFavoriteButtonTap()
+                        }) {
+                          HStack {
+                            Text("Remove")
+                              .font(.body)
+                              .fontWeight(.bold)
+                            Image(systemName: "star.fill")
+                          }
+                        }.buttonStyle(RemoveBookmarkButtonStyle())
+                      } else {
                         Button(action: {
                           addFavoriteButtonTap()
                           hapticFeebackMedium.impactOccurred()
@@ -83,7 +87,7 @@ struct GameDetailView: View {
                             Image(systemName: "star")
                           }
                         }.buttonStyle(AddBookmarkButtonStyle())
-          //            }
+                      }
           //
           //            if gameLikedData.items.contains(self.id) {
           //              Button(action: {
@@ -247,12 +251,25 @@ struct GameDetailView: View {
         }
       })
       .onAppear {
-        detailPresenter.getGameDetail(id: game.id ?? 0)
+
+        let idReplace = (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0
+
+        detailPresenter.getGameDetail(id: idReplace)
+
+        // check is this game contain in favorite DB?
+        favoriteGamePresenter.getFavoriteGames()
+        self.isFavorite = favoriteGamePresenter.games.filter { $0.id == idReplace }.count > 0
       }
     }
   }
 
   func addFavoriteButtonTap() {
-    detailPresenter.addGameToFavorite(data: GameModel(id: detailPresenter.gameDetail?.id ?? 0, name: detailPresenter.gameDetail?.name ?? "", released: detailPresenter.gameDetail?.released ?? "", backgroundImage: detailPresenter.gameDetail?.backgroundImage ?? "", rating: detailPresenter.gameDetail?.rating ?? 0.0, genres: nil, screenshots: nil))
+    favoriteGamePresenter.addGameToFavorite(data: GameModel(id: detailPresenter.gameDetail?.id ?? 0, name: detailPresenter.gameDetail?.name ?? "", released: detailPresenter.gameDetail?.released ?? "", backgroundImage: detailPresenter.gameDetail?.backgroundImage ?? "", rating: detailPresenter.gameDetail?.rating ?? 0.0, genres: nil, screenshots: nil))
+    self.isFavorite = true
+  }
+
+  func removeFavoriteButtonTap() {
+    favoriteGamePresenter.removeGameFromFavorite(id: (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0)
+    self.isFavorite = false
   }
 }

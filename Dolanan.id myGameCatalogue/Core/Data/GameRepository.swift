@@ -41,6 +41,7 @@ protocol GameRepositoryProtocol {
   func getGamesByKeyword(keyword: String) -> Observable<[GameModel]>
   func addGameToFavorite(data: GameModel) -> Observable<Bool>
   func getFavoriteGames() -> Observable<[GameModel]>
+  func removeGameFromFavorite(id: Int) -> Observable<Bool>
 }
 
 final class GameRepository: NSObject {
@@ -60,7 +61,6 @@ final class GameRepository: NSObject {
 }
 
 extension GameRepository: GameRepositoryProtocol {
-
   func getPopularGames() -> Observable<[GameModel]> {
     return self.remote.getPopularGames()
       .map { GameMapper.mapPopularGameResponsesToDomains(input: $0) }
@@ -84,5 +84,10 @@ extension GameRepository: GameRepositoryProtocol {
     return self.local.getFavoriteGames()
       .map { GameMapper.mapGameEntitiesToDomains(input: $0) }
   }
+
+  func removeGameFromFavorite(id: Int) -> Observable<Bool> {
+    return self.local.removeGameFromFavorite(id: id)
+  }
+
 
 }

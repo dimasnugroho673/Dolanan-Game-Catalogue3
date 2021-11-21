@@ -10,7 +10,6 @@ import RxSwift
 
 protocol DetailGameUseCase {
   func getGameDetail(id: Int) -> Observable<GameDetailModel>
-  func addGameToFavorite(data: GameModel) -> Observable<Bool>
 }
 
 class DetailGameInteractor: DetailGameUseCase {
@@ -25,10 +24,6 @@ class DetailGameInteractor: DetailGameUseCase {
 
   func getGameDetail(id: Int) -> Observable<GameDetailModel> {
     return repository.getDetailGame(id: id)
-  }
-
-  func addGameToFavorite(data: GameModel) -> Observable<Bool> {
-    return repository.addGameToFavorite(data: data)
   }
 
 }

@@ -12,9 +12,12 @@ class FavoriteGameRouter {
 
   func makeDetailView(for game: GameModel) -> some View {
     let detailGameUseCase = Injection.init().provideDetailGame(game: game)
-    let presenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase)
+    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
 
-    return GameDetailView(game: game, detailPresenter: presenter)
+    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase)
+    let favoritePresenter = FavoriteGamePresenter(favoriteGameUseCase: favoriteGameUseCase)
+
+    return GameDetailView(game: game, detailPresenter: detailPresenter, favoriteGamePresenter: favoritePresenter)
   }
 
 }

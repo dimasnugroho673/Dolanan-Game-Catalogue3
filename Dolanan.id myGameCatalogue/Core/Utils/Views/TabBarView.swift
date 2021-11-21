@@ -13,37 +13,33 @@ struct TabBarView: View {
   @EnvironmentObject var searchGamePresenter: SearchGamePresenter
   @EnvironmentObject var favoriteGamePresenter: FavoriteGamePresenter
 
-    var body: some View {
-      TabView {
-        HomeView(homePresenter: homePresenter)
-          .tabItem {
-            Image(systemName: "house")
-            Text("Home")
-          }
+  
 
-        Text("Genre")
-          .tabItem {
-            Image(systemName: "puzzlepiece")
-            Text("Genre")
-          }
+  var body: some View {
+    TabView {
+      HomeView(homePresenter: homePresenter)
+        .tabItem {
+          Image(systemName: "house")
+          Text("Home")
+        }
 
-        SearchGameView(searchGamePresenter: searchGamePresenter)
-          .tabItem {
-            Image(systemName: "magnifyingglass")
-            Text("Search")
-          }
+      SearchGameView(searchGamePresenter: searchGamePresenter)
+        .tabItem {
+          Image(systemName: "magnifyingglass")
+          Text("Search")
+        }
 
-        FavoriteGameView(favoriteGamePresenter: favoriteGamePresenter)
-          .tabItem {
-            Image(systemName: "text.badge.star")
-            Text("Favorite")
-          }
-      }
+      FavoriteGameView(favoriteGamePresenter: favoriteGamePresenter)
+        .tabItem {
+          Image(systemName: "text.badge.star")
+          Text("Favorite")
+        }
     }
+  }
 }
 
 struct TabBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        TabBarView()
-    }
+  static var previews: some View {
+    TabBarView()
+  }
 }

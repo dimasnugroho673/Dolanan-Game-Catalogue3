@@ -9,7 +9,9 @@ import Foundation
 import RxSwift
 
 protocol FavoriteGameUseCase {
+  func addGameToFavorite(data: GameModel) -> Observable<Bool>
   func getFavoriteGames() -> Observable<[GameModel]>
+  func removeGameFromFavorite(id: Int) -> Observable<Bool>
 }
 
 class FavoriteGameInteractor: FavoriteGameUseCase {
@@ -20,9 +22,16 @@ class FavoriteGameInteractor: FavoriteGameUseCase {
     self.repository = repository
   }
 
+  func addGameToFavorite(data: GameModel) -> Observable<Bool> {
+    return repository.addGameToFavorite(data: data)
+  }
+
   func getFavoriteGames() -> Observable<[GameModel]> {
     return repository.getFavoriteGames()
   }
 
+  func removeGameFromFavorite(id: Int) -> Observable<Bool> {
+    return repository.removeGameFromFavorite(id: id)
+  }
 
 }

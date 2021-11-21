@@ -12,7 +12,7 @@ import RealmSwift
 protocol LocalDataSourceProtocol: AnyObject {
   func addGameToFavorite(data: GameEntity) -> Observable<Bool>
   func getFavoriteGames() -> Observable<[GameEntity]>
-
+  func removeGameFromFavorite(id: Int) -> Observable<Bool>
 }
 
 final class LocalDataSource: NSObject {
@@ -55,15 +55,41 @@ extension LocalDataSource: LocalDataSourceProtocol {
 
   func getFavoriteGames() -> Observable<[GameEntity]> {
     return Observable<[GameEntity]>.create { observer in
-      if let realm = self.realm {
+      if let localDatabase = self.realm {
         let favoriteGames: Results<GameEntity> = {
-          realm.objects(GameEntity.self)
+          localDatabase.objects(GameEntity.self)
             .sorted(byKeyPath: "id", ascending: false)
         }()
         observer.onNext(favoriteGames.toArray(ofType: GameEntity.self))
         observer.onCompleted()
       } else {
         observer.onError(DatabaseError.invalidInstance)
+      }
+      return Disposables.create()
+    }
+  }
+
+  func removeGameFromFavorite(id: Int) -> Observable<Bool> {
+    return Observable<Bool>.create { observer in
+      if let localDatabase = self.realm {
+        do {
+
+          let getObjectById = localDatabase.objects(GameEntity.self).filter("id == %@", id).first
+
+          try localDatabase.write {
+            localDatabase.delete(getObjectById!)
+
+            observer.onNext(true)
+            observer.onCompleted()
+            print("data has beeen deleted to local DB")
+          }
+        } catch {
+          observer.onError(DatabaseError.requestFailed)
+          print(DatabaseError.requestFailed)
+        }
+      } else {
+        observer.onError(DatabaseError.requestFailed)
+        print(DatabaseError.requestFailed)
       }
       return Disposables.create()
     }

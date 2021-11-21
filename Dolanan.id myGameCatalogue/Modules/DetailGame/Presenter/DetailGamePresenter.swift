@@ -15,7 +15,6 @@ class DetailGamePresenter: ObservableObject {
   @Published var gameDetail: GameDetailModel?
   @Published var errorMessage: String = ""
   @Published var isLoading: Bool = true
-  @Published var addGameToFavoriteStatus: Bool = false
 
   private let disposeBag = DisposeBag()
 
@@ -33,17 +32,6 @@ class DetailGamePresenter: ObservableObject {
         self.errorMessage = String(describing: error.localizedDescription)
       } onCompleted: {
         self.isLoading = false
-      }.disposed(by: disposeBag)
-  }
-
-  func addGameToFavorite(data: GameModel) {
-    detailGameUseCase.addGameToFavorite(data: data)
-      .observe(on: MainScheduler.instance)
-      .subscribe { result in
-        self.addGameToFavoriteStatus = result
-      } onError: { _ in
-        self.errorMessage = "cannot added to favorite"
-      } onCompleted: {
       }.disposed(by: disposeBag)
   }
 

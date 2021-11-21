@@ -22,14 +22,14 @@ struct HomeView: View {
               if homePresenter.carousels.count > 0 {
                 TabView(selection: self.$carouselIndex) {
                   ForEach(homePresenter.carousels, id: \.id) { carousel in
-  //                  NavigationLink(destination: GameDetailView(id: carousel.id)) {
+                    homePresenter.linkBuilder(for: nil, id: carousel.id) {
                       Image(carousel.image)
                         .resizable()
                         .frame(height: 200)
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .tag(carouselIndex)
-  //                  }
+                    }
                   }
                 }
                 .frame(height: 200)
@@ -59,7 +59,7 @@ struct HomeView: View {
                   ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top) {
                       ForEach(Array(homePresenter.popularGames.enumerated()), id: \.1.id) { (index, game) in
-                        homePresenter.linkBuilder(for: game) {
+                        homePresenter.linkBuilder(for: game, id: 0) {
                           PopularGameCard(game: game, isLastItem: (index == homePresenter.popularGames.count - 1 ? true : false))
                         }
                       }
