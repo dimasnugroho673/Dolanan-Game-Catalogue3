@@ -17,6 +17,7 @@
 		402F573B274A937E008E4604 /* FavoriteGamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F573A274A937E008E4604 /* FavoriteGamePresenter.swift */; };
 		402F573D274A941D008E4604 /* FavoriteGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F573C274A941D008E4604 /* FavoriteGameInteractor.swift */; };
 		402F573F274A9BAA008E4604 /* FavoriteGameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F573E274A9BAA008E4604 /* FavoriteGameRouter.swift */; };
+		402F5741274A9C85008E4604 /* FavoriteGameCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F5740274A9C85008E4604 /* FavoriteGameCard.swift */; };
 		40A0202B27490A8A008329D4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40A0202A27490A8A008329D4 /* Preview Assets.xcassets */; };
 		40A0205C27490AEA008329D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40A0203227490AEA008329D4 /* Assets.xcassets */; };
 		40A0205D27490AEA008329D4 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0203627490AEA008329D4 /* HomePresenter.swift */; };
@@ -72,6 +73,7 @@
 		402F573A274A937E008E4604 /* FavoriteGamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGamePresenter.swift; sourceTree = "<group>"; };
 		402F573C274A941D008E4604 /* FavoriteGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameInteractor.swift; sourceTree = "<group>"; };
 		402F573E274A9BAA008E4604 /* FavoriteGameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameRouter.swift; sourceTree = "<group>"; };
+		402F5740274A9C85008E4604 /* FavoriteGameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameCard.swift; sourceTree = "<group>"; };
 		40A0202027490A89008329D4 /* Dolanan.id myGameCatalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dolanan.id myGameCatalogue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A0202A27490A8A008329D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		40A0203227490AEA008329D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			children = (
 				40A0204427490AEA008329D4 /* PopularGameCard.swift */,
 				402F572C274A6A57008E4604 /* SearchGameCard.swift */,
+				402F5740274A9C85008E4604 /* FavoriteGameCard.swift */,
 				40A0204527490AEA008329D4 /* LoadingState.swift */,
 				40A0204627490AEA008329D4 /* TabBarView.swift */,
 				40A0209B2749ED0A008329D4 /* ButtonStyles.swift */,
@@ -613,6 +616,7 @@
 				40A0206827490AEA008329D4 /* GameRepository.swift in Sources */,
 				40A0209E2749ED30008329D4 /* DetailGameView.swift in Sources */,
 				402F573D274A941D008E4604 /* FavoriteGameInteractor.swift in Sources */,
+				402F5741274A9C85008E4604 /* FavoriteGameCard.swift in Sources */,
 				40A0209A2749E7E3008329D4 /* Constants.swift in Sources */,
 				40A0205E27490AEA008329D4 /* HomeView.swift in Sources */,
 				402F572F274A6CEE008E4604 /* SearchGameRouter.swift in Sources */,
