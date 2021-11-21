@@ -1,0 +1,41 @@
+line_length:
+    warning: 1000
+    error: 1200
+    
+type_body_length:
+    warning: 1000
+    error: 2000
+
+identifier_name:
+  allowed_symbols: "_"
+  min_length: # only min_length
+    error: 4 # only error
+  excluded: # excluded via string array
+    - id
+    - key
+    - api
+    - API
+    - url
+    - URL
+    
+type_name:
+  allowed_symbols: "_"
+
+custom_rules:
+  custom_conditional_returns_on_newline:
+    name: "Conditional returns on new line"
+    regex: '^[\h]*(if|else|while)[^\n]*\}$'
+    message: "If/else and while constructions should not be defined in one line"
+    severity: warning
+
+disabled_rules:
+  - comma
+  - identifier_name
+  - force_cast
+  - large_tuple
+  - notification_center_detachment
+  - nesting
+  - function_parameter_count
+  - trailing_whitespace
+  - multiple_closures_with_trailing_closure
+  - orphaned_doc_comment

@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Dolanan.id myGameCatalogue
+//  Dolanan.id myGame Catalogue
 //
 //  Created by Dimas Putro on 20/11/21.
 //
@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+      TabBarView()
     }
 }
 
