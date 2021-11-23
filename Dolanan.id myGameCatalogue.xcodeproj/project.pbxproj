@@ -74,6 +74,7 @@
 		40A020A22749F2CD008329D4 /* GameDetailReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A020A12749F2CD008329D4 /* GameDetailReponse.swift */; };
 		40A020A82749FE7A008329D4 /* SearchGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A020A72749FE7A008329D4 /* SearchGameView.swift */; };
 		40E1E917274D41D400E281AE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1E916274D41D400E281AE /* ImagePicker.swift */; };
+		40E1E919274D5C6600E281AE /* PopularGameCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1E918274D5C6600E281AE /* PopularGameCard2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +136,7 @@
 		40A020A12749F2CD008329D4 /* GameDetailReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailReponse.swift; sourceTree = "<group>"; };
 		40A020A72749FE7A008329D4 /* SearchGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGameView.swift; sourceTree = "<group>"; };
 		40E1E916274D41D400E281AE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		40E1E918274D5C6600E281AE /* PopularGameCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularGameCard2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,6 +397,7 @@
 			isa = PBXGroup;
 			children = (
 				40A0204427490AEA008329D4 /* PopularGameCard.swift */,
+				40E1E918274D5C6600E281AE /* PopularGameCard2.swift */,
 				402F572C274A6A57008E4604 /* SearchGameCard.swift */,
 				402F5740274A9C85008E4604 /* FavoriteGameCard.swift */,
 				40A0204527490AEA008329D4 /* LoadingState.swift */,
@@ -704,6 +707,7 @@
 				40A0205D27490AEA008329D4 /* HomePresenter.swift in Sources */,
 				40A0206627490AEA008329D4 /* GameEntity.swift in Sources */,
 				40A0206227490AEA008329D4 /* All.swift in Sources */,
+				40E1E919274D5C6600E281AE /* PopularGameCard2.swift in Sources */,
 				402F574E274AC1CA008E4604 /* OnboardingView.swift in Sources */,
 				40A0206427490AEA008329D4 /* LoadingState.swift in Sources */,
 				40A0206A27490AEA008329D4 /* RemoteDataSource.swift in Sources */,

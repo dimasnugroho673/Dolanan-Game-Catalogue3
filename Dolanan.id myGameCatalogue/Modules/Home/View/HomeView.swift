@@ -56,22 +56,26 @@ struct HomeView: View {
                   .padding(.leading, 15)
                   .padding(.top, 20)
 
-                ScrollView(.horizontal, showsIndicators: false) {
-                  HStack(alignment: .top) {
+                ScrollView(.vertical, showsIndicators: false) {
+                  VStack(alignment: .leading, spacing: 15) {
                     ForEach(Array(homePresenter.popularGames.enumerated()), id: \.1.id) { (index, game) in
                       homePresenter.linkBuilder(for: game, id: 0) {
-                        PopularGameCard(game: game, isLastItem: (index == homePresenter.popularGames.count - 1 ? true : false))
+                        PopularGameCard2(game: game, isLastItem: (index == homePresenter.popularGames.count - 1 ? true : false))
                       }
                     }
                   }
                 }
-              }
-              //                PopularGameRow(popularGames: popularGames.dataPopularGame)
-              //                  .padding(.top, 20)
-              //
-              //                CreatorRow(creators: creatorsData.dataCreators)
-              //                  .padding(.top, 20)
 
+//                ScrollView(.horizontal, showsIndicators: false) {
+//                  HStack(alignment: .top) {
+//                    ForEach(Array(homePresenter.popularGames.enumerated()), id: \.1.id) { (index, game) in
+//                      homePresenter.linkBuilder(for: game, id: 0) {
+//                        PopularGameCard(game: game, isLastItem: (index == homePresenter.popularGames.count - 1 ? true : false))
+//                      }
+//                    }
+//                  }
+//                }
+              }
             }
           }
           .padding(.bottom, 10)
@@ -97,9 +101,3 @@ struct HomeView: View {
   }
 
 }
-
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView()
-//    }
-//}
