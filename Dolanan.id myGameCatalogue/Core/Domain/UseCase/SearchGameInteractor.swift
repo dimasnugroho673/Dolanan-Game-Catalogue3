@@ -13,15 +13,15 @@ protocol SearchGameUseCase {
 }
 
 class SearchGameInteractor: SearchGameUseCase {
-
+  
   private var repository: GameRepositoryProtocol
-
-    required init(repository: GameRepositoryProtocol) {
-      self.repository = repository
-    }
-
+  
+  required init(repository: GameRepositoryProtocol) {
+    self.repository = repository
+  }
+  
   func getGamesByKeyword(keyword: String) -> Observable<[GameModel]> {
     return repository.getGamesByKeyword(keyword: keyword)
   }
-
+  
 }

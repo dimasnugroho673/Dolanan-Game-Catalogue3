@@ -57,9 +57,3 @@ struct FavoriteGameCard: View {
     }
   }
 }
-
-//struct FavoriteGameCard_Previews: PreviewProvider {
-//  static var previews: some View {
-//    FavoriteGameCard()
-//  }
-//}

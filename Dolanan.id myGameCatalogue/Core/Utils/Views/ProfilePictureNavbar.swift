@@ -29,15 +29,5 @@ struct ProfilePictureNavbar: View {
           .clipShape(Circle())
       }
     }
-    .onAppear {
-      //        self.userData.fetchItem()
-//      self.profileImageData = userData.item?.profilePicture ?? Data()
-    }
   }
 }
-
-//struct ProfileNavbar_Previews: PreviewProvider {
-//    static var previews: some View {
-//      ProfilePictureNavbar()
-//    }
-//}

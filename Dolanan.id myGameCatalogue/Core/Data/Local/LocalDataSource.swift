@@ -48,8 +48,8 @@ extension LocalDataSource: LocalDataSourceProtocol {
           print(DatabaseError.requestFailed)
         }
       } else {
-          observer.onError(DatabaseError.requestFailed)
-          print(DatabaseError.requestFailed)
+        observer.onError(DatabaseError.requestFailed)
+        print(DatabaseError.requestFailed)
       }
       return Disposables.create()
     }
@@ -131,8 +131,8 @@ extension LocalDataSource: LocalDataSourceProtocol {
           print(DatabaseError.requestFailed)
         }
       } else {
-          observer.onError(DatabaseError.requestFailed)
-          print(DatabaseError.requestFailed)
+        observer.onError(DatabaseError.requestFailed)
+        print(DatabaseError.requestFailed)
       }
       return Disposables.create()
     }
@@ -141,17 +141,10 @@ extension LocalDataSource: LocalDataSourceProtocol {
   func getUser() -> Observable<UserEntity> {
     return Observable<UserEntity>.create { observer in
       if let localDatabase = self.realm {
-        do {
-          let getObjectById = localDatabase.objects(UserEntity.self).filter("id == %@", "0").first
+        let getObjectById = localDatabase.objects(UserEntity.self).filter("id == %@", "0").first
 
-          print(getObjectById)
-
-          observer.onNext(getObjectById!)
-          observer.onCompleted()
-        } catch {
-          observer.onError(DatabaseError.requestFailed)
-          print(DatabaseError.requestFailed)
-        }
+        observer.onNext(getObjectById!)
+        observer.onCompleted()
       } else {
         observer.onError(DatabaseError.requestFailed)
         print(DatabaseError.requestFailed)

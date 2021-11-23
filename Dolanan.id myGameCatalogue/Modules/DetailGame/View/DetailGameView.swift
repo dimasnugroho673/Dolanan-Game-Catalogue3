@@ -10,21 +10,21 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct GameDetailView: View {
-
+  
   @Environment(\.presentationMode) var presentation
   @Environment(\.openURL) var openURL
   @Environment(\.colorScheme) var colorScheme
-
+  
   var id: Int?
   var game: GameModel
   @ObservedObject var detailPresenter: DetailGamePresenter
-
+  
   @State var isFavorite: Bool = false
-
+  
   let hapticFeebackMedium = UIImpactFeedbackGenerator(style: .medium)
-
+  
   var body: some View {
-
+    
     if detailPresenter.errorMessage != "" {
       HStack(alignment: .center) {
         Spacer()
@@ -50,20 +50,20 @@ struct GameDetailView: View {
             .frame(width: UIScreen.main.bounds.width, height: reader.frame(in: .global).minY + 480)
         }
         .frame(height: 480)
-
+        
         VStack(alignment: .leading, spacing: 15) {
           Text(detailPresenter.gameDetail?.name ?? "")
             .font(.system(size: 24, weight: .bold))
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 5)
-
+          
           Text(detailPresenter.gameDetail?.genres?.map {
             $0.name
           }.joined(separator: ", ") ?? "")
             .font(.callout)
             .foregroundColor(Color.init(.systemGray))
             .padding(.top, -10)
-
+          
           //          HStack(spacing: 15) {
           if detailPresenter.gameDetail?.backgroundImage ?? "" != "" {
             if isFavorite {
@@ -91,51 +91,12 @@ struct GameDetailView: View {
               }.buttonStyle(AddBookmarkButtonStyle())
             }
           }
-
-          //
-          //            if gameLikedData.items.contains(self.id) {
-          //              Button(action: {
-          //                unlikeTap()
-          //              }, label: {
-          //                Image(systemName: "heart.fill")
-          //                  .resizable()
-          //                  .frame(width: 33, height: 30)
-          //                  .foregroundColor(.red)
-          //              })
-          //              .frame(width: 40, height: 60)
-          //            } else {
-          //              Button(action: {
-          //                likeTap()
-          //                hapticFeebackMedium.impactOccurred()
-          //              }, label: {
-          //                Image(systemName: "heart")
-          //                  .resizable()
-          //                  .frame(width: 33, height: 30)
-          //                  .foregroundColor(Color.init(.systemGray2))
-          //              })
-          //              .frame(width: 40, height: 60)
-          //            }
-          //          }
-          //          .padding(.top, 10)
-          //          .padding(.bottom, -20)
-
-          //          if screenshots.isEmpty == false {
-          //            Text("Preview")
-          //              .font(.system(size: 20, weight: .bold))
-          //              .foregroundColor(colorScheme == .light ? .black : .white)
-          //              .padding(.top, 20)
-          //
-          //            ScreenshotGameRow(screenshots: screenshots)
-          //              .padding(.top, 0)
-          //              .padding(.leading, -15)
-          //              .padding(.trailing, -15)
-          //          }
-
+          
           Text("Rating")
             .font(.system(size: 20, weight: .bold))
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 20)
-
+          
           HStack(spacing: 3) {
             ForEach(1...5, id: \.self) { index in
               Image(systemName: index > Int(round(detailPresenter.gameDetail?.rating ?? 0.0)) ? "star" : "star.fill")
@@ -143,21 +104,21 @@ struct GameDetailView: View {
             }
           }
           .padding(.top, 0)
-
+          
           Text("Description")
             .font(.system(size: 20, weight: .bold))
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 5)
-
+          
           Text(detailPresenter.gameDetail?.descriptionRaw ?? "")
             .font(.subheadline)
             .foregroundColor(colorScheme == .light ? Color.black : Color.white)
-
+          
           Text("Information")
             .font(.system(size: 20, weight: .bold))
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 5)
-
+          
           List {
             HStack {
               Text("Relased Date")
@@ -167,7 +128,7 @@ struct GameDetailView: View {
               Text(detailPresenter.gameDetail?.released?.formatterDate(dateInString: detailPresenter.gameDetail?.released ?? "", inFormat: "yyy-MM-dd", toFormat: "dd MMM yyyy") ?? "")
                 .font(.subheadline)
             }
-
+            
             HStack {
               Text("Age Rating")
                 .foregroundColor(.gray)
@@ -176,7 +137,7 @@ struct GameDetailView: View {
               Text(detailPresenter.gameDetail?.ageRating?.name ?? "")
                 .font(.subheadline)
             }
-
+            
             HStack {
               Text("Platform")
                 .foregroundColor(.gray)
@@ -185,7 +146,7 @@ struct GameDetailView: View {
               Text(detailPresenter.gameDetail?.parentPlatforms?.map { $0.childPlatform.name }.joined(separator: ", ") ?? "")
                 .font(.subheadline)
             }
-
+            
             HStack {
               Text("Playtime")
                 .foregroundColor(.gray)
@@ -194,7 +155,7 @@ struct GameDetailView: View {
               Text("\(detailPresenter.gameDetail?.playtime ?? 0) Hour")
                 .font(.subheadline)
             }
-
+            
             HStack {
               Text("Developer Website")
                 .foregroundColor(.accentColor)
@@ -210,7 +171,7 @@ struct GameDetailView: View {
                   openURL(URL(string: detailPresenter.gameDetail?.website ?? "")!)
                 }
             }
-
+            
             HStack {
               Text("View all reviews")
                 .foregroundColor(.accentColor)
@@ -256,21 +217,21 @@ struct GameDetailView: View {
       })
       .onAppear {
         let idReplace = (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0
-
+        
         detailPresenter.getGameDetail(id: idReplace)
-
+        
         // check is this game contain in favorite DB?
         detailPresenter.getFavoriteGames()
         self.isFavorite = detailPresenter.games.filter { $0.id == idReplace }.count > 0
       }
     }
   }
-
+  
   func addFavoriteButtonTap() {
     detailPresenter.addGameToFavorite(data: GameModel(id: detailPresenter.gameDetail?.id ?? 0, name: detailPresenter.gameDetail?.name ?? "", released: detailPresenter.gameDetail?.released ?? "", backgroundImage: detailPresenter.gameDetail?.backgroundImage ?? "", rating: detailPresenter.gameDetail?.rating ?? 0.0, genres: nil, screenshots: nil))
     self.isFavorite = true
   }
-
+  
   func removeFavoriteButtonTap() {
     detailPresenter.removeGameFromFavorite(id: (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0)
     self.isFavorite = false

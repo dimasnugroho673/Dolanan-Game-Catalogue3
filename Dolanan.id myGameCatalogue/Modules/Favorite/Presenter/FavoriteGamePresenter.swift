@@ -10,11 +10,11 @@ import RxSwift
 import SwiftUI
 
 class FavoriteGamePresenter: ObservableObject {
-
+  
   private let favoriteGameUseCase: FavoriteGameUseCase
   private let userUseCase: UserUseCase
   private let favoriteGameRouter = FavoriteGameRouter()
-
+  
   @Published var user: UserModel?
   @Published var games: [GameModel] = []
   @Published var errorMessage: String = ""
@@ -22,14 +22,14 @@ class FavoriteGamePresenter: ObservableObject {
   @Published var keywordCounter: String = ""
   @Published var deleteGameFromFavoriteStatus: Bool = false
   @Published var addGameToFavoriteStatus: Bool = false
-
+  
   private let disposeBag = DisposeBag()
-
+  
   init(favoriteGameUseCase: FavoriteGameUseCase, userUseCase: UserUseCase) {
     self.favoriteGameUseCase = favoriteGameUseCase
     self.userUseCase = userUseCase
   }
-
+  
   func getFavoriteGames() {
     isLoading = true
     favoriteGameUseCase.getFavoriteGames()
@@ -53,7 +53,7 @@ class FavoriteGamePresenter: ObservableObject {
       } onCompleted: {
       }.disposed(by: disposeBag)
   }
-
+  
   func addGameToFavorite(data: GameModel) {
     favoriteGameUseCase.addGameToFavorite(data: data)
       .observe(on: MainScheduler.instance)
@@ -64,29 +64,29 @@ class FavoriteGamePresenter: ObservableObject {
       } onCompleted: {
       }.disposed(by: disposeBag)
   }
-
+  
   func removeGameFromFavorite(id: Int) {
     favoriteGameUseCase.removeGameFromFavorite(id: id)
       .observe(on: MainScheduler.instance)
       .subscribe { result in
-          self.deleteGameFromFavoriteStatus = result
+        self.deleteGameFromFavoriteStatus = result
       } onError: { _ in
-          self.errorMessage = "Failed to save detail restaurant"
+        self.errorMessage = "Failed to save detail restaurant"
       } onCompleted: {
       }.disposed(by: disposeBag)
   }
-
+  
   func linkBuilder<Content: View>(
     for game: GameModel,
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: favoriteGameRouter.makeDetailView(for: game)) { content() }
   }
-
+  
   func linkToProfileView<Content: View>(
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: favoriteGameRouter.makeProfileView()) { content() }
   }
-
+  
 }

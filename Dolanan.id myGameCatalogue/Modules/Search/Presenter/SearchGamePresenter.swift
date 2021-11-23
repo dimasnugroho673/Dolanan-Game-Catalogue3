@@ -21,7 +21,7 @@ class SearchGamePresenter: ObservableObject {
   @Published var errorMessage: String = ""
   @Published var isLoading: Bool = true
   @Published var keywordCounter: String = ""
-
+  
   private let disposeBag = DisposeBag()
 
   init(searchGameUseCase: SearchGameUseCase, userUseCase: UserUseCase) {

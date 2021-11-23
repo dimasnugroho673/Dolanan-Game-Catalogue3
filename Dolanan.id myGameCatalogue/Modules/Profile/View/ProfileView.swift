@@ -130,7 +130,7 @@ struct ProfileView: View {
                           .sheet(isPresented: $isEditModalShow, onDismiss: {
       self.profilePresenter.getUser()
 
-      /// fill state variable with data from environtment object after fetchItem()
+      /// fill state variable with data
       self.fullname = profilePresenter.user?.name ?? ""
       self.email = profilePresenter.user?.email ?? ""
       self.noHP = profilePresenter.user?.phoneNumber ?? ""
@@ -143,9 +143,3 @@ struct ProfileView: View {
     )
   }
 }
-
-//struct ProfileView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    ProfileView()
-//  }
-//}

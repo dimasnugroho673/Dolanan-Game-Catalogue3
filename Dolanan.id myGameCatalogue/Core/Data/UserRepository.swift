@@ -11,7 +11,6 @@ import RxSwift
 protocol UserRepositoryProtocol {
   func addUser(data: UserModel) -> Observable<Bool>
   func getUser() -> Observable<UserModel>
-//  func updateUser(data: UserEntity) -> Observable<Bool>
 }
 
 final class UserRepository: NSObject {

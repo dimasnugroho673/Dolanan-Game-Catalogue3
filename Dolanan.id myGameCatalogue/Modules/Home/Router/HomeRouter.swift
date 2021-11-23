@@ -18,7 +18,7 @@ class HomeRouter {
 
     return GameDetailView(id: id, game: game, detailPresenter: detailPresenter)
   }
-
+  
   func makeProfileView() -> some View {
     let userUserCase = Injection.init().provideUser()
 

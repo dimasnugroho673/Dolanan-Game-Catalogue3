@@ -13,10 +13,8 @@ class SearchGameRouter {
   func makeDetailView(for game: GameModel) -> some View {
     let detailGameUseCase = Injection.init().provideDetailGame(game: game)
     let favoriteGameUseCase = Injection.init().provideFavoriteGame()
-    let userUserCase = Injection.init().provideUser()
 
     let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
-    let favoritePresenter = FavoriteGamePresenter(favoriteGameUseCase: favoriteGameUseCase, userUseCase: userUserCase)
 
     return GameDetailView(game: game, detailPresenter: detailPresenter)
   }

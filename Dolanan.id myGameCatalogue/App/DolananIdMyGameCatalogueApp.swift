@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Dolanan_id_myGame_CatalogueApp: App {
+struct DolananIdMyGameCatalogueApp: App {
 
   let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
   let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame(), userUseCase: Injection.init().provideUser())

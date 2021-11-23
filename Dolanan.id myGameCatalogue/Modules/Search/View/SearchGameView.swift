@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 struct SearchGameView: View {
-
+  
   @ObservedObject var searchGamePresenter: SearchGamePresenter
-
+  
   @State private var isEditing = false
-
+  
   var body: some View {
     NavigationView {
       GeometryReader { geometry in
@@ -23,46 +23,46 @@ struct SearchGameView: View {
               TextField("Search game", text: $searchGamePresenter.keywordCounter)
                 .onReceive(searchGamePresenter.$keywordCounter.debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)) {
                   guard !$0.isEmpty else { return }
-
+                  
                   if $0.count >= 3 {
                     self.searchGamePresenter.getGamesByKeyword(keyword: $0)
                   }
                 }
-              .padding(7)
-              .padding(.horizontal, 25)
-              .background(Color(.systemGray6))
-              .cornerRadius(8)
-              .overlay(
-                HStack {
-                  Image(systemName: "magnifyingglass")
-                    .foregroundColor(.gray)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 8)
-
-                  if isEditing {
-                    Button(action: {
-                      searchGamePresenter.keywordCounter = ""
-                      searchGamePresenter.resultGames = []
-                    }) {
-                      Image(systemName: "multiply.circle.fill")
-                        .foregroundColor(.gray)
-                        .padding(.trailing, 8)
+                .padding(7)
+                .padding(.horizontal, 25)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .overlay(
+                  HStack {
+                    Image(systemName: "magnifyingglass")
+                      .foregroundColor(.gray)
+                      .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                      .padding(.leading, 8)
+                    
+                    if isEditing {
+                      Button(action: {
+                        searchGamePresenter.keywordCounter = ""
+                        searchGamePresenter.resultGames = []
+                      }) {
+                        Image(systemName: "multiply.circle.fill")
+                          .foregroundColor(.gray)
+                          .padding(.trailing, 8)
+                      }
                     }
                   }
+                )
+                .onTapGesture {
+                  self.isEditing = true
                 }
-              )
-              .onTapGesture {
-                self.isEditing = true
-              }
-              .animation(.default)
-              .keyboardType(.webSearch)
-
+                .animation(.default)
+                .keyboardType(.webSearch)
+              
               if isEditing {
                 Button(action: {
                   self.isEditing = false
                   searchGamePresenter.keywordCounter = ""
                   searchGamePresenter.resultGames = []
-
+                  
                   // Dismiss the keyboard
                   UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
@@ -73,7 +73,7 @@ struct SearchGameView: View {
                 .animation(.default)
               }
             }
-
+            
             if searchGamePresenter.keywordCounter == "" {
               VStack(alignment: .leading) {
                 Text("Top rate game")
@@ -81,14 +81,14 @@ struct SearchGameView: View {
                   .bold()
                   .padding(.top, 40)
                   .padding(.leading, 15)
-
+                
                 List {
                   ForEach(searchGamePresenter.topRatingGames, id: \.id) { game in
                     HStack {
                       Text(game.title ?? "")
                         .foregroundColor(.accentColor)
                       Spacer()
-
+                      
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -99,7 +99,7 @@ struct SearchGameView: View {
                   }
                 }
                 .listStyle(PlainListStyle())
-
+                
               }
               .frame(height: geometry.size.height)
               .padding(.leading, -20)
@@ -152,9 +152,9 @@ struct SearchGameView: View {
         .padding(.bottom, 10)
         .navigationTitle("Search")
         .navigationBarItems(trailing:
-            searchGamePresenter.linkToProfileView {
-            ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
-          }
+                              searchGamePresenter.linkToProfileView {
+          ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
+        }
         )
       }
     }

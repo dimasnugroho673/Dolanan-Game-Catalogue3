@@ -8,28 +8,28 @@
 import SwiftUI
 
 struct EditProfileView: View {
-
+  
   @Environment(\.presentationMode) private var presentation
-
+  
   var user: UserModel?
-
+  
   @State var profileImageData: Data = Data()
   @State var name: String = ""
   @State var email: String = ""
   @State var phoneNumber: String = ""
   @State var website: String = ""
   @State var githubUrl: String = ""
-
+  
   @ObservedObject var editProfilePresenter: EditProfilePresenter
-
+  
   @State var isShowProfilePickerSheet = false
   @State var isGalleryPicker = false
   @State var isCameraPicker = false
   @State var isShowEditProfilePictureActionSheet = false
-
+  
   var body: some View {
     NavigationView {
-
+      
       VStack {
         HStack {
           Button(action: {
@@ -37,7 +37,7 @@ struct EditProfileView: View {
           }, label: {
             if !profileImageData.isEmpty {
               let decoded = (try? PropertyListDecoder().decode(Data.self, from: profileImageData)) ?? Data()
-
+              
               Image(uiImage: UIImage(data: decoded)!)
                 .resizable()
                 .scaledToFill()
@@ -45,7 +45,7 @@ struct EditProfileView: View {
                 .overlay(
                   Rectangle()
                     .opacity(0.6)
-
+                  
                     .overlay(
                       Text("EDIT")
                         .foregroundColor(Color.white)
@@ -64,7 +64,7 @@ struct EditProfileView: View {
                 .overlay(
                   Rectangle()
                     .opacity(0.6)
-
+                  
                     .overlay(
                       Text("EDIT")
                         .foregroundColor(Color.white)
@@ -78,7 +78,7 @@ struct EditProfileView: View {
             }
           })
         }
-
+        
         .actionSheet(isPresented: $isShowEditProfilePictureActionSheet) {
           ActionSheet(
             title: Text(""),
@@ -98,7 +98,7 @@ struct EditProfileView: View {
           )
         }
         .padding(.top, 30)
-
+        
         List {
           Section(header: Text("Profile Detail"), content: {
             TextField("Fullname", text: Binding<String>(get: {
@@ -124,25 +124,25 @@ struct EditProfileView: View {
               self.website = $0
             }))
           })
-
+          
           Section(header: Text("Developer Only"), content: {
             TextField("GitHub Link", text: Binding<String>(get: {
               self.githubUrl
             }, set: {
               self.githubUrl = $0
             }))
-
+            
           })
         }
         .padding(.top, 15)
         .listStyle(GroupedListStyle())
       }
       .background(Color.init(.systemGray6))
-
+      
       .navigationTitle("Edit profile")
       .navigationBarTitleDisplayMode(.inline)
       .toolbar(content: {
-
+        
         ToolbarItem(placement: .navigationBarLeading, content: {
           Button(action: {
             self.presentation.wrappedValue.dismiss()
@@ -150,13 +150,11 @@ struct EditProfileView: View {
             Text("Cancel")
           })
         })
-
+        
         ToolbarItem(placement: .navigationBarTrailing, content: {
           Button(action: {
-            //            self.userData.addItem(data: UserDataModel(name: self.fullname, email: self.email, phoneNumber: self.noHP, website: self.website, githubUrl: self.githubLink, profilePicture: self.profileImageData))
-
             self.editProfilePresenter.updateUser(data: UserModel(id: "0", name: self.name, email: self.email, phoneNumber: self.phoneNumber, website: self.website, githubUrl: self.githubUrl, profilePicture: self.profileImageData))
-
+            
             if self.editProfilePresenter.updateUserStatus {
               self.presentation.wrappedValue.dismiss()
             }
@@ -164,12 +162,12 @@ struct EditProfileView: View {
             Text("Done")
           })
         })
-
+        
       })
     }
     .onAppear {
-
-      /// fill state variable with data from environtment object after fetchItem()
+      
+      /// fill state variable with data)
       self.name = user?.name ?? ""
       self.email = user?.email ?? ""
       self.phoneNumber = user?.phoneNumber ?? ""
@@ -184,14 +182,8 @@ struct EditProfileView: View {
       } else {
         ImagePicker(sourceType: .photoLibrary, selectedImageData: self.$profileImageData)
       }
-
+      
     }
-
+    
   }
 }
-
-//struct EditProfileView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    EditProfileView()
-//  }
-//}

@@ -11,7 +11,6 @@ import RxSwift
 protocol UserUseCase {
   func addUser(data: UserModel) -> Observable<Bool>
   func getUser() -> Observable<UserModel>
-//  func updateUser(data: UserEntity) -> Observable<Bool>
 }
 
 class UserInteractor: UserUseCase {
@@ -29,22 +28,4 @@ class UserInteractor: UserUseCase {
   func addUser(data: UserModel) -> Observable<Bool> {
     return repository.addUser(data: data)
   }
-
-//  func updateUser(data: UserEntity) -> Observable<Bool> {
-//
-//  }
-  
 }
-
-//class HomeInteractor: HomeUseCase {
-//
-//  private let repository: GameRepositoryProtocol
-//
-//  required init(repository: GameRepositoryProtocol) {
-//    self.repository = repository
-//  }
-//
-//  func getPopularGames() -> Observable<[GameModel]> {
-//    return repository.getPopularGames()
-//  }
-//}

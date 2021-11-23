@@ -39,16 +39,10 @@ struct FavoriteGameView: View {
       .navigationTitle("Favorite")
       .navigationBarTitleDisplayMode(.large)
       .navigationBarItems(trailing:
-        favoriteGamePresenter.linkToProfileView {
-          ProfilePictureNavbar(profileImageData: favoriteGamePresenter.user?.profilePicture ?? Data())
-        }
+                            favoriteGamePresenter.linkToProfileView {
+        ProfilePictureNavbar(profileImageData: favoriteGamePresenter.user?.profilePicture ?? Data())
+      }
       )
     }
   }
 }
-
-//struct FavoriteGameView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FavoriteGameView()
-//    }
-//}

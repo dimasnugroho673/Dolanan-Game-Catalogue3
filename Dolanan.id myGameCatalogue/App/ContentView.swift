@@ -18,9 +18,7 @@ struct ContentView: View {
     if isUserExist {
       TabBarView()
     } else {
-      VStack {
-
-      }
+      VStack {}
       .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
       .background(Color.white)
       .edgesIgnoringSafeArea(.all)

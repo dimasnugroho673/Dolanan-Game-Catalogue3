@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct HomeView: View {
-
+  
   @ObservedObject var homePresenter: HomePresenter
-
+  
   @State var carouselIndex: Int = 0
-
+  
   var body: some View {
     NavigationView {
       ZStack {
         ScrollView(.vertical, showsIndicators: false) {
           VStack(alignment: .leading) {
-
+            
             if homePresenter.carousels.count > 0 {
               TabView(selection: self.$carouselIndex) {
                 ForEach(homePresenter.carousels, id: \.id) { carousel in
@@ -36,7 +36,7 @@ struct HomeView: View {
               .tabViewStyle(PageTabViewStyle())
               .animation(.easeOut)
             }
-
+            
             if homePresenter.isLoading {
               HStack(alignment: .center) {
                 Spacer()
@@ -55,7 +55,7 @@ struct HomeView: View {
                   .bold()
                   .padding(.leading, 15)
                   .padding(.top, 20)
-
+                
                 ScrollView(.vertical, showsIndicators: false) {
                   VStack(alignment: .leading, spacing: 15) {
                     ForEach(Array(homePresenter.popularGames.enumerated()), id: \.1.id) { (index, game) in
@@ -65,39 +65,29 @@ struct HomeView: View {
                     }
                   }
                 }
-
-//                ScrollView(.horizontal, showsIndicators: false) {
-//                  HStack(alignment: .top) {
-//                    ForEach(Array(homePresenter.popularGames.enumerated()), id: \.1.id) { (index, game) in
-//                      homePresenter.linkBuilder(for: game, id: 0) {
-//                        PopularGameCard(game: game, isLastItem: (index == homePresenter.popularGames.count - 1 ? true : false))
-//                      }
-//                    }
-//                  }
-//                }
               }
             }
           }
           .padding(.bottom, 10)
-
+          
         }
         .onAppear {
           if homePresenter.popularGames.count == 0 {
             homePresenter.getPopularGames()
           }
-
+          
           homePresenter.getCarousels()
           homePresenter.getUser()
         }
         
         .navigationTitle("Home")
         .navigationBarItems(trailing:
-            homePresenter.linkToProfileView {
-            ProfilePictureNavbar(profileImageData: homePresenter.user?.profilePicture ?? Data())
-          }
+                              homePresenter.linkToProfileView {
+          ProfilePictureNavbar(profileImageData: homePresenter.user?.profilePicture ?? Data())
+        }
         )
       }
     }
   }
-
+  
 }

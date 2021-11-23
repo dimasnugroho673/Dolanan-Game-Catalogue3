@@ -15,23 +15,23 @@ protocol FavoriteGameUseCase {
 }
 
 class FavoriteGameInteractor: FavoriteGameUseCase {
-
+  
   private let repository: GameRepositoryProtocol
-
+  
   required init(repository: GameRepositoryProtocol) {
     self.repository = repository
   }
-
+  
   func addGameToFavorite(data: GameModel) -> Observable<Bool> {
     return repository.addGameToFavorite(data: data)
   }
-
+  
   func getFavoriteGames() -> Observable<[GameModel]> {
     return repository.getFavoriteGames()
   }
-
+  
   func removeGameFromFavorite(id: Int) -> Observable<Bool> {
     return repository.removeGameFromFavorite(id: id)
   }
-
+  
 }
