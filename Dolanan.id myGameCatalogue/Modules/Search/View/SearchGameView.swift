@@ -60,6 +60,7 @@ struct SearchGameView: View {
               if isEditing {
                 Button(action: {
                   self.isEditing = false
+                  searchGamePresenter.keywordCounter = ""
                   searchGamePresenter.resultGames = []
 
                   // Dismiss the keyboard
@@ -146,13 +147,15 @@ struct SearchGameView: View {
         }
         .onAppear {
           searchGamePresenter.getTopRatingGames()
+          searchGamePresenter.getUser()
         }
         .padding(.bottom, 10)
         .navigationTitle("Search")
-//        .navigationBarItems(trailing:
-//                              NavigationLink(destination: ProfileView()) {
-//                                ProfilePictureNavbar()
-//                              })
+        .navigationBarItems(trailing:
+            searchGamePresenter.linkToProfileView {
+            ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
+          }
+        )
       }
     }
     .navigationViewStyle(StackNavigationViewStyle())

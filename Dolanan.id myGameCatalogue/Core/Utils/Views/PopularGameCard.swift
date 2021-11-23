@@ -31,16 +31,16 @@ struct PopularGameCard: View {
           .font(.headline)
           .frame(maxWidth: 220, maxHeight: 20, alignment: .leading)
 
-//        HStack {
-//          Text(game.genres ?? nil
-//                .map {
-//            $0.name ?? ""
-//          }
-//                .joined(separator: ", "))
-//            .foregroundColor(.gray)
-//            .font(.subheadline)
-//            .frame(maxWidth: 220, maxHeight: 20, alignment: .leading)
-//        }
+        HStack {
+          Text(game.genres!
+                .map {
+            $0.name
+          }
+                .joined(separator: ", "))
+            .foregroundColor(.gray)
+            .font(.subheadline)
+            .frame(maxWidth: 220, maxHeight: 20, alignment: .leading)
+        }
 
         HStack(spacing: 3) {
           ForEach(1...5, id: \.self) { index in
@@ -72,9 +72,3 @@ struct PopularGameCard: View {
     }
   }
 }
-
-//struct PopularGameCard_Previews: PreviewProvider {
-//  static var previews: some View {
-//    PopularGameCard()
-//  }
-//}

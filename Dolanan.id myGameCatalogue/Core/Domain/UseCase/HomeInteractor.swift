@@ -6,20 +6,7 @@
 //
 
 import Foundation
-import Combine
 import RxSwift
-
-//protocol HomeUseCase {
-//  func getPopularGames() -> AnyPublisher<[PopularGame], Error>
-//}
-//
-//class HomeInteractor: HomeUseCase {
-//  private let repository: GameRepositoryProtocol
-//
-//  required init() {
-//
-//  }
-//}
 
 protocol HomeUseCase {
   func getPopularGames() -> Observable<[GameModel]>

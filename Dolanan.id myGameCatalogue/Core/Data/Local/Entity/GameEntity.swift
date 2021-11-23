@@ -15,4 +15,3 @@ class GameEntity: Object, Identifiable {
   @objc dynamic var backgroundImage: String = ""
   @objc dynamic var rating: Float = 0.0
 }
-

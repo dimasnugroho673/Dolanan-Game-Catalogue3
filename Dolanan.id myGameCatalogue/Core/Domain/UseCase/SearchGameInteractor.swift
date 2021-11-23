@@ -23,14 +23,5 @@ class SearchGameInteractor: SearchGameUseCase {
   func getGamesByKeyword(keyword: String) -> Observable<[GameModel]> {
     return repository.getGamesByKeyword(keyword: keyword)
   }
-//
-//  required init(repository: GameRepositoryProtocol, game: GameModel ) {
-//    self.repository = repository
-//    self.game = game
-//  }
-//
-//  func getGameDetail(id: Int) -> Observable<GameDetailModel> {
-//    return repository.getDetailGame(id: id)
-//  }
 
 }

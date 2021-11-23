@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
+
+  @EnvironmentObject var onboardingPresenter: OnboardingPresenter
+
+  @State private var isUserExist = UserDefaults.standard.bool(forKey: "UserExist")
+  @State private var isOnboardingPresent = true
+
+  var body: some View {
+    if isUserExist {
       TabBarView()
+    } else {
+      VStack {
+
+      }
+      .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+      .background(Color.white)
+      .edgesIgnoringSafeArea(.all)
+      .fullScreenCover(isPresented: $isOnboardingPresent, content: {
+        OnboardingView(onboardingPresenter: onboardingPresenter, isUserExist: $isUserExist)
+      })
     }
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }

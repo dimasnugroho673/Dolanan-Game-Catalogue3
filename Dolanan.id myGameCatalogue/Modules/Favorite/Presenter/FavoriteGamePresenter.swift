@@ -12,8 +12,10 @@ import SwiftUI
 class FavoriteGamePresenter: ObservableObject {
 
   private let favoriteGameUseCase: FavoriteGameUseCase
+  private let userUseCase: UserUseCase
   private let favoriteGameRouter = FavoriteGameRouter()
 
+  @Published var user: UserModel?
   @Published var games: [GameModel] = []
   @Published var errorMessage: String = ""
   @Published var isLoading: Bool = true
@@ -23,8 +25,9 @@ class FavoriteGamePresenter: ObservableObject {
 
   private let disposeBag = DisposeBag()
 
-  init(favoriteGameUseCase: FavoriteGameUseCase) {
+  init(favoriteGameUseCase: FavoriteGameUseCase, userUseCase: UserUseCase) {
     self.favoriteGameUseCase = favoriteGameUseCase
+    self.userUseCase = userUseCase
   }
 
   func getFavoriteGames() {
@@ -37,6 +40,17 @@ class FavoriteGamePresenter: ObservableObject {
         self.errorMessage = String(describing: error.localizedDescription)
       } onCompleted: {
         self.isLoading = false
+      }.disposed(by: disposeBag)
+  }
+  
+  func getUser() {
+    userUseCase.getUser()
+      .observe(on: MainScheduler.instance)
+      .subscribe { result in
+        self.user = result
+      } onError: { error in
+        self.errorMessage = String(describing: error.localizedDescription)
+      } onCompleted: {
       }.disposed(by: disposeBag)
   }
 
@@ -67,6 +81,12 @@ class FavoriteGamePresenter: ObservableObject {
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: favoriteGameRouter.makeDetailView(for: game)) { content() }
+  }
+
+  func linkToProfileView<Content: View>(
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: favoriteGameRouter.makeProfileView()) { content() }
   }
 
 }

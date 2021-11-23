@@ -12,8 +12,10 @@ import SwiftUI
 class HomePresenter: ObservableObject {
 
   private let homeUseCase: HomeUseCase
+  private let userUseCase: UserUseCase
   private let homeRouter = HomeRouter()
 
+  @Published var user: UserModel?
   @Published var popularGames: [GameModel] = []
   @Published var carousels: [CarouselModel] = []
   @Published var errorMessage: String = ""
@@ -21,8 +23,20 @@ class HomePresenter: ObservableObject {
 
   private let disposeBag = DisposeBag()
 
-  init(homeUseCase: HomeUseCase) {
+  init(homeUseCase: HomeUseCase, userUseCase: UserUseCase) {
     self.homeUseCase = homeUseCase
+    self.userUseCase = userUseCase
+  }
+
+  func getUser() {
+    userUseCase.getUser()
+      .observe(on: MainScheduler.instance)
+      .subscribe { result in
+        self.user = result
+      } onError: { error in
+        self.errorMessage = String(describing: error.localizedDescription)
+      } onCompleted: {
+      }.disposed(by: disposeBag)
   }
 
   func getPopularGames() {
@@ -54,6 +68,12 @@ class HomePresenter: ObservableObject {
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: homeRouter.makeDetailView(for: game ?? GameModel(id: 0, name: "", released: "", backgroundImage: "", rating: 0.0, genres: nil, screenshots: nil), id: id)) { content() }
+  }
+
+  func linkToProfileView<Content: View>(
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: homeRouter.makeProfileView()) { content() }
   }
 
 }

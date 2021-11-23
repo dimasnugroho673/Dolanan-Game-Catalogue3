@@ -18,7 +18,6 @@ struct GameDetailView: View {
   var id: Int?
   var game: GameModel
   @ObservedObject var detailPresenter: DetailGamePresenter
-  @ObservedObject var favoriteGamePresenter: FavoriteGamePresenter
 
   @State var isFavorite: Bool = false
 
@@ -58,36 +57,41 @@ struct GameDetailView: View {
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 5)
 
-          //          Text(genres.isEmpty ? (detailGameData.detailGame?.genres.map { $0.name }.joined(separator: ", ") ?? "") : genres.map { $0.name }.joined(separator: ", "))
-          //            .font(.callout)
-          //            .foregroundColor(Color.init(.systemGray))
-          //            .padding(.top, -10)
+          Text(detailPresenter.gameDetail?.genres?.map {
+            $0.name
+          }.joined(separator: ", ") ?? "")
+            .font(.callout)
+            .foregroundColor(Color.init(.systemGray))
+            .padding(.top, -10)
 
           //          HStack(spacing: 15) {
-                      if isFavorite {
-                        Button(action: {
-                          removeFavoriteButtonTap()
-                        }) {
-                          HStack {
-                            Text("Remove")
-                              .font(.body)
-                              .fontWeight(.bold)
-                            Image(systemName: "star.fill")
-                          }
-                        }.buttonStyle(RemoveBookmarkButtonStyle())
-                      } else {
-                        Button(action: {
-                          addFavoriteButtonTap()
-                          hapticFeebackMedium.impactOccurred()
-                        }) {
-                          HStack {
-                            Text("Favorite")
-                              .font(.body)
-                              .fontWeight(.bold)
-                            Image(systemName: "star")
-                          }
-                        }.buttonStyle(AddBookmarkButtonStyle())
-                      }
+          if detailPresenter.gameDetail?.backgroundImage ?? "" != "" {
+            if isFavorite {
+              Button(action: {
+                removeFavoriteButtonTap()
+              }) {
+                HStack {
+                  Text("Remove")
+                    .font(.body)
+                    .fontWeight(.bold)
+                  Image(systemName: "star.fill")
+                }
+              }.buttonStyle(RemoveBookmarkButtonStyle())
+            } else {
+              Button(action: {
+                addFavoriteButtonTap()
+                hapticFeebackMedium.impactOccurred()
+              }) {
+                HStack {
+                  Text("Favorite")
+                    .font(.body)
+                    .fontWeight(.bold)
+                  Image(systemName: "star")
+                }
+              }.buttonStyle(AddBookmarkButtonStyle())
+            }
+          }
+
           //
           //            if gameLikedData.items.contains(self.id) {
           //              Button(action: {
@@ -173,14 +177,14 @@ struct GameDetailView: View {
                 .font(.subheadline)
             }
 
-            //            HStack {
-            //              Text("Platform")
-            //                .foregroundColor(.gray)
-            //                .font(.subheadline)
-            //              Spacer()
-            //              Text(detailGameData.detailGame?.parentPlatforms.map { $0.childPlatform.name }.joined(separator: ", ") ?? "")
-            //                .font(.subheadline)
-            //            }
+            HStack {
+              Text("Platform")
+                .foregroundColor(.gray)
+                .font(.subheadline)
+              Spacer()
+              Text(detailPresenter.gameDetail?.parentPlatforms?.map { $0.childPlatform.name }.joined(separator: ", ") ?? "")
+                .font(.subheadline)
+            }
 
             HStack {
               Text("Playtime")
@@ -251,25 +255,24 @@ struct GameDetailView: View {
         }
       })
       .onAppear {
-
         let idReplace = (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0
 
         detailPresenter.getGameDetail(id: idReplace)
 
         // check is this game contain in favorite DB?
-        favoriteGamePresenter.getFavoriteGames()
-        self.isFavorite = favoriteGamePresenter.games.filter { $0.id == idReplace }.count > 0
+        detailPresenter.getFavoriteGames()
+        self.isFavorite = detailPresenter.games.filter { $0.id == idReplace }.count > 0
       }
     }
   }
 
   func addFavoriteButtonTap() {
-    favoriteGamePresenter.addGameToFavorite(data: GameModel(id: detailPresenter.gameDetail?.id ?? 0, name: detailPresenter.gameDetail?.name ?? "", released: detailPresenter.gameDetail?.released ?? "", backgroundImage: detailPresenter.gameDetail?.backgroundImage ?? "", rating: detailPresenter.gameDetail?.rating ?? 0.0, genres: nil, screenshots: nil))
+    detailPresenter.addGameToFavorite(data: GameModel(id: detailPresenter.gameDetail?.id ?? 0, name: detailPresenter.gameDetail?.name ?? "", released: detailPresenter.gameDetail?.released ?? "", backgroundImage: detailPresenter.gameDetail?.backgroundImage ?? "", rating: detailPresenter.gameDetail?.rating ?? 0.0, genres: nil, screenshots: nil))
     self.isFavorite = true
   }
 
   func removeFavoriteButtonTap() {
-    favoriteGamePresenter.removeGameFromFavorite(id: (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0)
+    detailPresenter.removeGameFromFavorite(id: (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0)
     self.isFavorite = false
   }
 }

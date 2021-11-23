@@ -13,6 +13,8 @@ protocol LocalDataSourceProtocol: AnyObject {
   func addGameToFavorite(data: GameEntity) -> Observable<Bool>
   func getFavoriteGames() -> Observable<[GameEntity]>
   func removeGameFromFavorite(id: Int) -> Observable<Bool>
+  func addUser(data: UserEntity) -> Observable<Bool>
+  func getUser() -> Observable<UserEntity>
 }
 
 final class LocalDataSource: NSObject {
@@ -83,6 +85,69 @@ extension LocalDataSource: LocalDataSourceProtocol {
             observer.onCompleted()
             print("data has beeen deleted to local DB")
           }
+        } catch {
+          observer.onError(DatabaseError.requestFailed)
+          print(DatabaseError.requestFailed)
+        }
+      } else {
+        observer.onError(DatabaseError.requestFailed)
+        print(DatabaseError.requestFailed)
+      }
+      return Disposables.create()
+    }
+  }
+
+  func addUser(data: UserEntity) -> Observable<Bool> {
+    return Observable<Bool>.create { observer in
+      if let localDatabase = self.realm {
+        do {
+
+          let user = localDatabase.objects(UserEntity.self).filter("id == %@", "0").first
+
+          if let user = user {
+            try localDatabase.write {
+              user.name = data.name
+              user.email = data.email
+              user.phoneNumber = data.phoneNumber
+              user.website = data.website
+              user.githubUrl = data.githubUrl
+              user.profilePicture = data.profilePicture
+
+              observer.onNext(true)
+              observer.onCompleted()
+              print("user has been updated")
+            }
+          } else {
+            try localDatabase.write {
+              localDatabase.add(data)
+
+              observer.onNext(true)
+              observer.onCompleted()
+              print("data has been saved to local DB")
+            }
+          }
+        } catch {
+          observer.onError(DatabaseError.requestFailed)
+          print(DatabaseError.requestFailed)
+        }
+      } else {
+          observer.onError(DatabaseError.requestFailed)
+          print(DatabaseError.requestFailed)
+      }
+      return Disposables.create()
+    }
+  }
+
+  func getUser() -> Observable<UserEntity> {
+    return Observable<UserEntity>.create { observer in
+      if let localDatabase = self.realm {
+        do {
+          let getObjectById = localDatabase.objects(UserEntity.self).filter("id == %@", "0").first
+
+          print(getObjectById)
+
+          observer.onNext(getObjectById!)
+          observer.onCompleted()
         } catch {
           observer.onError(DatabaseError.requestFailed)
           print(DatabaseError.requestFailed)

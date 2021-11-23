@@ -6,34 +6,7 @@
 //
 
 import Foundation
-import Combine
 import RxSwift
-
-//protocol GameRepositoryProtocol {
-//  func getPopularGames() -> AnyPublisher<[PopularGame], Error>
-//}
-//
-//final class GameRepository: NSObject {
-//  typealias GameInstance = (RemoteDataSource) -> GameRepository
-//
-//  fileprivate let remote: RemoteDataSource
-//
-//  private init(remote: RemoteDataSource) {
-//    self.remote = remote
-//  }
-//
-//  static let sharedInstance: GameInstance = { remoteRepo in
-//    return GameRepository(remote: remoteRepo)
-//  }
-//}
-//
-//extension GameRepository: GameRepositoryProtocol {
-//
-//  func getPopularGames() -> AnyPublisher<[PopularGame], Error> {
-//    return self.remote.getPopularGames()
-//      .map { PopularGameMapper.mapPopularGameResponsesToDomains(input: $0) }
-//  }
-//}
 
 protocol GameRepositoryProtocol {
   func getPopularGames() -> Observable<[GameModel]>
@@ -88,6 +61,5 @@ extension GameRepository: GameRepositoryProtocol {
   func removeGameFromFavorite(id: Int) -> Observable<Bool> {
     return self.local.removeGameFromFavorite(id: id)
   }
-
 
 }

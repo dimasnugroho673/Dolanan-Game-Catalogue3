@@ -33,10 +33,16 @@ struct FavoriteGameView: View {
       }
       .onAppear {
         favoriteGamePresenter.getFavoriteGames()
+        favoriteGamePresenter.getUser()
       }
 
       .navigationTitle("Favorite")
       .navigationBarTitleDisplayMode(.large)
+      .navigationBarItems(trailing:
+        favoriteGamePresenter.linkToProfileView {
+          ProfilePictureNavbar(profileImageData: favoriteGamePresenter.user?.profilePicture ?? Data())
+        }
+      )
     }
   }
 }

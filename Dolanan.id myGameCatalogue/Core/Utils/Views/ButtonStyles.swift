@@ -33,3 +33,16 @@ struct RemoveBookmarkButtonStyle: ButtonStyle {
       .cornerRadius(10)
   }
 }
+
+struct StartOnboardingButtonStyle: ButtonStyle {
+  func makeBody(configuration: Self.Configuration) -> some View {
+    configuration.label
+      .font(.headline)
+      .frame(maxWidth: .infinity, minHeight: 45, alignment: .center)
+      .contentShape(Rectangle())
+      .foregroundColor(configuration.isPressed ? Color.accentColor.opacity(0.5) : Color.accentColor)
+      .listRowBackground(configuration.isPressed ? Color.accentColor.opacity(0.5) : Color.accentColor)
+      .background(Color.init(.systemGray6))
+      .cornerRadius(10)
+  }
+}

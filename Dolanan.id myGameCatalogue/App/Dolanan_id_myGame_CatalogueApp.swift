@@ -10,9 +10,12 @@ import SwiftUI
 @main
 struct Dolanan_id_myGame_CatalogueApp: App {
 
-  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome())
-  let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame())
-  let favoriteGamePresenter = FavoriteGamePresenter(favoriteGameUseCase: Injection.init().provideFavoriteGame())
+  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
+  let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame(), userUseCase: Injection.init().provideUser())
+  let favoriteGamePresenter = FavoriteGamePresenter(favoriteGameUseCase: Injection.init().provideFavoriteGame(), userUseCase: Injection.init().provideUser())
+  let onboardingPresenter = OnboardingPresenter(userUseCase: Injection.init().provideOnboarding())
+  let profilePresenter = ProfilePresenter(userUseCase: Injection.init().provideUser())
+  let editProfilePresenter = EditProfilePresenter(userUseCase: Injection.init().provideUser())
 
   var body: some Scene {
     WindowGroup {
@@ -20,6 +23,8 @@ struct Dolanan_id_myGame_CatalogueApp: App {
         .environmentObject(homePresenter)
         .environmentObject(searchGamePresenter)
         .environmentObject(favoriteGamePresenter)
+        .environmentObject(onboardingPresenter)
+        .environmentObject(profilePresenter)
     }
   }
 }

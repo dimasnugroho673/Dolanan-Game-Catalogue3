@@ -13,8 +13,6 @@ struct TabBarView: View {
   @EnvironmentObject var searchGamePresenter: SearchGamePresenter
   @EnvironmentObject var favoriteGamePresenter: FavoriteGamePresenter
 
-  
-
   var body: some View {
     TabView {
       HomeView(homePresenter: homePresenter)
