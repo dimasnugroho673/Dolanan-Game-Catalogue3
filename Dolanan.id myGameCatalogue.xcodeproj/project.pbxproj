@@ -73,7 +73,18 @@
 		40A020A82749FE7A008329D4 /* SearchGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A020A72749FE7A008329D4 /* SearchGameView.swift */; };
 		40E1E917274D41D400E281AE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1E916274D41D400E281AE /* ImagePicker.swift */; };
 		40E1E919274D5C6600E281AE /* PopularGameCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1E918274D5C6600E281AE /* PopularGameCard2.swift */; };
+		40E1E929274D694200E281AE /* FavoriteGameUseCaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1E928274D694200E281AE /* FavoriteGameUseCaseTest.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		40E1E922274D68F500E281AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 40A0201827490A89008329D4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 40A0201F27490A89008329D4;
+			remoteInfo = "Dolanan.id myGameCatalogue";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		402F5728274A2B05008E4604 /* SearchGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGameInteractor.swift; sourceTree = "<group>"; };
@@ -133,6 +144,8 @@
 		40A020A72749FE7A008329D4 /* SearchGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGameView.swift; sourceTree = "<group>"; };
 		40E1E916274D41D400E281AE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		40E1E918274D5C6600E281AE /* PopularGameCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularGameCard2.swift; sourceTree = "<group>"; };
+		40E1E91E274D68F500E281AE /* Dolanan.id myGameCatalogueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dolanan.id myGameCatalogueTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		40E1E928274D694200E281AE /* FavoriteGameUseCaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameUseCaseTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +163,13 @@
 				40A0207B274915C8008329D4 /* RxCocoa in Frameworks */,
 				40A0207327491584008329D4 /* Alamofire in Frameworks */,
 				40A0208727491641008329D4 /* RealmCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40E1E91B274D68F500E281AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				40A0202227490A89008329D4 /* Dolanan.id myGameCatalogue */,
+				40E1E91F274D68F500E281AE /* Dolanan.id myGameCatalogueTests */,
 				40A0202127490A89008329D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -262,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				40A0202027490A89008329D4 /* Dolanan.id myGameCatalogue.app */,
+				40E1E91E274D68F500E281AE /* Dolanan.id myGameCatalogueTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -563,6 +585,22 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		40E1E91F274D68F500E281AE /* Dolanan.id myGameCatalogueTests */ = {
+			isa = PBXGroup;
+			children = (
+				40E1E927274D690300E281AE /* Domain */,
+			);
+			path = "Dolanan.id myGameCatalogueTests";
+			sourceTree = "<group>";
+		};
+		40E1E927274D690300E281AE /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				40E1E928274D694200E281AE /* FavoriteGameUseCaseTest.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -596,6 +634,24 @@
 			productReference = 40A0202027490A89008329D4 /* Dolanan.id myGameCatalogue.app */;
 			productType = "com.apple.product-type.application";
 		};
+		40E1E91D274D68F500E281AE /* Dolanan.id myGameCatalogueTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 40E1E926274D68F500E281AE /* Build configuration list for PBXNativeTarget "Dolanan.id myGameCatalogueTests" */;
+			buildPhases = (
+				40E1E91A274D68F500E281AE /* Sources */,
+				40E1E91B274D68F500E281AE /* Frameworks */,
+				40E1E91C274D68F500E281AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				40E1E923274D68F500E281AE /* PBXTargetDependency */,
+			);
+			name = "Dolanan.id myGameCatalogueTests";
+			productName = "Dolanan.id myGameCatalogueTests";
+			productReference = 40E1E91E274D68F500E281AE /* Dolanan.id myGameCatalogueTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -608,6 +664,10 @@
 				TargetAttributes = {
 					40A0201F27490A89008329D4 = {
 						CreatedOnToolsVersion = 13.0;
+					};
+					40E1E91D274D68F500E281AE = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 40A0201F27490A89008329D4;
 					};
 				};
 			};
@@ -633,6 +693,7 @@
 			projectRoot = "";
 			targets = (
 				40A0201F27490A89008329D4 /* Dolanan.id myGameCatalogue */,
+				40E1E91D274D68F500E281AE /* Dolanan.id myGameCatalogueTests */,
 			);
 		};
 /* End PBXProject section */
@@ -644,6 +705,13 @@
 			files = (
 				40A0205C27490AEA008329D4 /* Assets.xcassets in Resources */,
 				40A0202B27490A8A008329D4 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40E1E91C274D68F500E281AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,7 +800,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		40E1E91A274D68F500E281AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40E1E929274D694200E281AE /* FavoriteGameUseCaseTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		40E1E923274D68F500E281AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 40A0201F27490A89008329D4 /* Dolanan.id myGameCatalogue */;
+			targetProxy = 40E1E922274D68F500E281AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		40A0202C27490A8A008329D4 /* Debug */ = {
@@ -913,6 +997,52 @@
 			};
 			name = Release;
 		};
+		40E1E924274D68F500E281AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D7589S3EHF;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dimas.Dolanan-id-myGameCatalogueTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dolanan.id myGameCatalogue.app/Dolanan.id myGameCatalogue";
+			};
+			name = Debug;
+		};
+		40E1E925274D68F500E281AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D7589S3EHF;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dimas.Dolanan-id-myGameCatalogueTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dolanan.id myGameCatalogue.app/Dolanan.id myGameCatalogue";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -930,6 +1060,15 @@
 			buildConfigurations = (
 				40A0202F27490A8A008329D4 /* Debug */,
 				40A0203027490A8A008329D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		40E1E926274D68F500E281AE /* Build configuration list for PBXNativeTarget "Dolanan.id myGameCatalogueTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40E1E924274D68F500E281AE /* Debug */,
+				40E1E925274D68F500E281AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
