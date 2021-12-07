@@ -76,12 +76,12 @@ class FavoriteGamePresenter: ObservableObject {
       }.disposed(by: disposeBag)
   }
   
-  func linkBuilder<Content: View>(
-    for game: GameModel,
-    @ViewBuilder content: () -> Content
-  ) -> some View {
-    NavigationLink(destination: favoriteGameRouter.makeDetailView(for: game)) { content() }
-  }
+//  func linkBuilder<Content: View>(
+//    for game: GameModel,
+//    @ViewBuilder content: () -> Content
+//  ) -> some View {
+//    NavigationLink(destination: favoriteGameRouter.makeDetailView(for: game)) { content() }
+//  }
   
   func linkToProfileView<Content: View>(
     @ViewBuilder content: () -> Content

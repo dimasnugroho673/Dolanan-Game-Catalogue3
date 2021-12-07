@@ -18,13 +18,6 @@ final class Injection: NSObject {
 
   // 1
   func provideHome<U: UseCase>() -> U where U.Request == Any, U.Response == [GameDomainModel] {
-    // 2
-//    let appDelegate = UIApplication.shared.delegate as! MyAppDelegate
-//    guard let appDelegate = UIApplication.shared.delegate as? MyAppDelegate else {
-//         fatalError("no Application Delegate found")
-//    }
-
-    // 3
     let locale = GetGamesLocaleDataSource(realm: realm)
 
     let remote = GetGamesRemoteDataSource(endpoint: "\(Constants.api)games?key=\(Constants.apiKey)&page=1")
@@ -33,6 +26,18 @@ final class Injection: NSObject {
 
     let repository = GetGamesRepository(
         localeDataSource: locale,
+        remoteDataSource: remote,
+        mapper: mapper)
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideDetailGame<U: UseCase>() -> U where U.Request == Int, U.Response == GameDetailDomainModel {
+    let remote = GetGameRemoteDataSource(endpoint: "\(Constants.api)games", apiKey: Constants.apiKey)
+
+    let mapper = GameDetailTransformer()
+
+    let repository = GetGameRepository(
         remoteDataSource: remote,
         mapper: mapper)
 
@@ -66,11 +71,11 @@ final class Injection: NSObject {
 //    return HomeInteractor(repository: repository)
 //  }
 
-  func provideDetailGame(game: GameModel) -> DetailGameUseCase {
-    let repository = provideGameRepository()
-
-    return DetailGameInteractor(repository: repository, game: game)
-  }
+//  func provideDetailGame(game: GameModel) -> DetailGameUseCase {
+//    let repository = provideGameRepository()
+//
+//    return DetailGameInteractor(repository: repository, game: game)
+//  }
 
   func provideSearchGame() -> SearchGameUseCase {
     let repository = provideGameRepository()

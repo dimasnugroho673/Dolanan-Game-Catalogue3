@@ -63,12 +63,12 @@ class SearchGamePresenter: ObservableObject {
     ]
   }
 
-  func linkBuilder<Content: View>(
-    for game: GameModel,
-    @ViewBuilder content: () -> Content
-  ) -> some View {
-    NavigationLink(destination: searchRouter.makeDetailView(for: game)) { content() }
-  }
+//  func linkBuilder<Content: View>(
+//    for game: GameModel,
+//    @ViewBuilder content: () -> Content
+//  ) -> some View {
+//    NavigationLink(destination: searchRouter.makeDetailView(for: game)) { content() }
+//  }
 
   func linkToProfileView<Content: View>(
     @ViewBuilder content: () -> Content

@@ -21,11 +21,11 @@ struct FavoriteGameView: View {
         } else {
           ScrollView(.vertical, showsIndicators: false) {
             ForEach(favoriteGamePresenter.games, id: \.id) { game in
-              favoriteGamePresenter.linkBuilder(for: game) {
+//              favoriteGamePresenter.linkBuilder(for: game) {
                 FavoriteGameCard(game: game)
                   .padding(.leading, 18)
                   .padding(.trailing, 18)
-              }
+//              }
               .padding(.bottom, 10)
             }
           }

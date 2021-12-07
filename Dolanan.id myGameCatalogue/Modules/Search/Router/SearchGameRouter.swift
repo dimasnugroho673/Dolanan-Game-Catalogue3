@@ -10,14 +10,14 @@ import SwiftUI
 
 class SearchGameRouter {
 
-  func makeDetailView(for game: GameModel) -> some View {
-    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
-    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
-
-    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
-
-    return GameDetailView(game: game, detailPresenter: detailPresenter)
-  }
+//  func makeDetailView(for game: GameModel) -> some View {
+//    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
+//    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
+//
+//    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+//
+//    return GameDetailView(game: game, detailPresenter: detailPresenter)
+//  }
 
   func makeProfileView() -> some View {
     let userUserCase = Injection.init().provideUser()

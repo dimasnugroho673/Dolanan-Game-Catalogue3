@@ -132,10 +132,10 @@ struct SearchGameView: View {
                 } else {
                   VStack {
                     ForEach(searchGamePresenter.resultGames, id: \.id) { game in
-                      searchGamePresenter.linkBuilder(for: game) {
+//                      searchGamePresenter.linkBuilder(for: game) {
                         SearchGameCard(game: game)
                           .padding(.bottom, 20)
-                      }
+//                      }
                     }
                   }
                 }

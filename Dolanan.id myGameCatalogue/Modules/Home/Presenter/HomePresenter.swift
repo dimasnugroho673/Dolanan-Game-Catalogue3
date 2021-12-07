@@ -62,13 +62,13 @@ class HomePresenter: ObservableObject {
     ]
   }
   
-  func linkBuilder<Content: View>(
-    for game: GameModel?,
-    id: Int,
-    @ViewBuilder content: () -> Content
-  ) -> some View {
-    NavigationLink(destination: homeRouter.makeDetailView(for: game ?? GameModel(id: 0, name: "", released: "", backgroundImage: "", rating: 0.0, genres: nil, screenshots: nil), id: id)) { content() }
-  }
+//  func linkBuilder<Content: View>(
+//    for game: GameModel?,
+//    id: Int,
+//    @ViewBuilder content: () -> Content
+//  ) -> some View {
+//    NavigationLink(destination: homeRouter.makeDetailView(for: game ?? GameModel(id: 0, name: "", released: "", backgroundImage: "", rating: 0.0, genres: nil, screenshots: nil), id: id)) { content() }
+//  }
   
   func linkToProfileView<Content: View>(
     @ViewBuilder content: () -> Content

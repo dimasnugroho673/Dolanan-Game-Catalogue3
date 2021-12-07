@@ -7,17 +7,28 @@
 
 import Foundation
 import SwiftUI
+import Game
+import Core
 
 class HomeRouter {
 
-  func makeDetailView(for game: GameModel, id: Int) -> some View {
-    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
-    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
+  func makeDetailView(id: Int) -> some View {
 
-    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+      let useCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGameRemoteDataSource, GameDetailTransformer>> = Injection.init().provideDetailGame()
 
-    return GameDetailView(id: id, game: game, detailPresenter: detailPresenter)
+      let detailPresenter = GetDetailPresenter(useCase: useCase)
+
+      return GameDetailView(id: id, detailPresenter: detailPresenter)
   }
+
+//  func makeDetailView(for game: GameModel, id: Int) -> some View {
+//    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
+//    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
+//
+//    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+//
+//    return GameDetailView(id: id, game: game, detailPresenter: detailPresenter)
+//  }
   
   func makeProfileView() -> some View {
     let userUserCase = Injection.init().provideUser()
