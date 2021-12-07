@@ -39,3 +39,4 @@ disabled_rules:
   - trailing_whitespace
   - multiple_closures_with_trailing_closure
   - orphaned_doc_comment
+  - force_try

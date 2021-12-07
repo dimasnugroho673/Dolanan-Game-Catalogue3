@@ -7,15 +7,16 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Game
 
 struct PopularGameCard2: View {
 
-  var game: GameModel
+  var game: GameDomainModel
   var isLastItem: Bool = false
   
   var body: some View {
-    Spacer()
-    Spacer()
+//    Spacer()
+//    Spacer()
     HStack(alignment: .top) {
       WebImage(url: URL(string: game.backgroundImage ?? ""))
         .resizable()
@@ -30,14 +31,16 @@ struct PopularGameCard2: View {
           .foregroundColor(.primary)
           .font(.headline)
 
-        Text(game.genres!
-              .map {
-          $0.name
+        if game.genres?.isEmpty != nil {
+          Text(game.genres!
+                .map {
+            $0.name
+          }
+            .joined(separator: ", "))
+            .foregroundColor(.gray)
+            .font(.caption)
+            .frame(maxWidth: 220, maxHeight: 20, alignment: .leading)
         }
-              .joined(separator: ", "))
-          .foregroundColor(.gray)
-          .font(.caption)
-          .frame(maxWidth: 220, maxHeight: 20, alignment: .leading)
 
         HStack(spacing: 3) {
           ForEach(1...5, id: \.self) { index in
@@ -55,7 +58,7 @@ struct PopularGameCard2: View {
         }
       }
     }
-    Spacer()
-    Spacer()
+//    Spacer()
+//    Spacer()
   }
 }

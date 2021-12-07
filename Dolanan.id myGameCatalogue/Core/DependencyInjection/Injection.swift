@@ -7,8 +7,37 @@
 
 import Foundation
 import RealmSwift
+import Core
+import Game
+import UIKit
 
 final class Injection: NSObject {
+
+//  var realm: Realm!
+  var realm = try! Realm()
+
+  // 1
+  func provideHome<U: UseCase>() -> U where U.Request == Any, U.Response == [GameDomainModel] {
+    // 2
+//    let appDelegate = UIApplication.shared.delegate as! MyAppDelegate
+//    guard let appDelegate = UIApplication.shared.delegate as? MyAppDelegate else {
+//         fatalError("no Application Delegate found")
+//    }
+
+    // 3
+    let locale = GetGamesLocaleDataSource(realm: realm)
+
+    let remote = GetGamesRemoteDataSource(endpoint: "\(Constants.api)games?key=\(Constants.apiKey)&page=1")
+
+    let mapper = GameTransformer()
+
+    let repository = GetGamesRepository(
+        localeDataSource: locale,
+        remoteDataSource: remote,
+        mapper: mapper)
+
+    return Interactor(repository: repository) as! U
+  }
 
   func provideGameRepository() -> GameRepositoryProtocol {
 
@@ -31,11 +60,11 @@ final class Injection: NSObject {
     return UserRepository.sharedInstance(local)
   }
 
-  func provideHome() -> HomeUseCase {
-    let repository = provideGameRepository()
-
-    return HomeInteractor(repository: repository)
-  }
+//  func provideHome() -> HomeUseCase {
+//    let repository = provideGameRepository()
+//
+//    return HomeInteractor(repository: repository)
+//  }
 
   func provideDetailGame(game: GameModel) -> DetailGameUseCase {
     let repository = provideGameRepository()

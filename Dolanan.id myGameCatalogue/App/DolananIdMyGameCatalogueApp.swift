@@ -6,11 +6,22 @@
 //
 
 import SwiftUI
+import RealmSwift
+import Core
+import Game
+import UIKit
+
+let gameUseCase: Interactor<Any, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>> = Injection.init().provideHome()
 
 @main
 struct DolananIdMyGameCatalogueApp: App {
 
-  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
+//  @UIApplicationDelegateAdaptor(MyAppDelegate.self) var appDelegate
+
+//  var realm: Realm!
+
+  let homePresenter = GetListPresenter(useCase: gameUseCase)
+//  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
   let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame(), userUseCase: Injection.init().provideUser())
   let favoriteGamePresenter = FavoriteGamePresenter(favoriteGameUseCase: Injection.init().provideFavoriteGame(), userUseCase: Injection.init().provideUser())
   let onboardingPresenter = OnboardingPresenter(userUseCase: Injection.init().provideOnboarding())
@@ -25,6 +36,9 @@ struct DolananIdMyGameCatalogueApp: App {
         .environmentObject(favoriteGamePresenter)
         .environmentObject(onboardingPresenter)
         .environmentObject(profilePresenter)
+        .onAppear {
+//          self.realm = try! Realm()
+        }
     }
   }
 }

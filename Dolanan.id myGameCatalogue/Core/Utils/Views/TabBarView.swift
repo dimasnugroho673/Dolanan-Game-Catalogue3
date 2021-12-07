@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Core
+import Game
 
 struct TabBarView: View {
 
-  @EnvironmentObject var homePresenter: HomePresenter
+  @EnvironmentObject var homePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
   @EnvironmentObject var searchGamePresenter: SearchGamePresenter
   @EnvironmentObject var favoriteGamePresenter: FavoriteGamePresenter
 
