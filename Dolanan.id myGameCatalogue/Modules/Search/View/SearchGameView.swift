@@ -5,14 +5,23 @@
 //  Created by Dimas Putro on 21/11/21.
 //
 
-import Foundation
 import SwiftUI
+import Core
+import Game
 
 struct SearchGameView: View {
   
-  @ObservedObject var searchGamePresenter: SearchGamePresenter
+//  @ObservedObject var searchGamePresenter: SearchGamePresenter
+  @ObservedObject var searchGamePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
   
-  @State private var isEditing = false
+  @State private var isEditing: Bool = false
+  @State private var topRatingGames: [TopRatingGamesModel] = [
+    TopRatingGamesModel(title: "Cyberpunk 2077"),
+    TopRatingGamesModel(title: "Final Fantasy VII Remake Intergrade"),
+    TopRatingGamesModel(title: "Hitman 3"),
+    TopRatingGamesModel(title: "Watch Dogs 2"),
+    TopRatingGamesModel(title: "Assassin's Creed Valhalla")
+  ]
   
   var body: some View {
     NavigationView {
@@ -25,7 +34,7 @@ struct SearchGameView: View {
                   guard !$0.isEmpty else { return }
                   
                   if $0.count >= 3 {
-                    self.searchGamePresenter.getGamesByKeyword(keyword: $0)
+                    self.searchGamePresenter.getList(request: $0)
                   }
                 }
                 .padding(7)
@@ -42,7 +51,7 @@ struct SearchGameView: View {
                     if isEditing {
                       Button(action: {
                         searchGamePresenter.keywordCounter = ""
-                        searchGamePresenter.resultGames = []
+                        searchGamePresenter.list = []
                       }) {
                         Image(systemName: "multiply.circle.fill")
                           .foregroundColor(.gray)
@@ -61,7 +70,7 @@ struct SearchGameView: View {
                 Button(action: {
                   self.isEditing = false
                   searchGamePresenter.keywordCounter = ""
-                  searchGamePresenter.resultGames = []
+                  searchGamePresenter.list = []
                   
                   // Dismiss the keyboard
                   UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -83,7 +92,7 @@ struct SearchGameView: View {
                   .padding(.leading, 15)
                 
                 List {
-                  ForEach(searchGamePresenter.topRatingGames, id: \.id) { game in
+                  ForEach(self.topRatingGames, id: \.id) { game in
                     HStack {
                       Text(game.title ?? "")
                         .foregroundColor(.accentColor)
@@ -94,7 +103,7 @@ struct SearchGameView: View {
                     .onTapGesture {
                       self.isEditing = true
                       self.searchGamePresenter.keywordCounter = game.title ?? ""
-                      self.searchGamePresenter.getGamesByKeyword(keyword: game.title ?? "")
+                      self.searchGamePresenter.getList(request: game.title ?? "")
                     }
                   }
                 }
@@ -116,7 +125,7 @@ struct SearchGameView: View {
                   Spacer()
                 }.frame(width: .infinity, height: UIScreen.main.bounds.height / 2, alignment: .center)
               } else {
-                if searchGamePresenter.resultGames.isEmpty {
+                if searchGamePresenter.list.isEmpty {
                   HStack(alignment: .center) {
                     VStack(alignment: .center) {
                       Spacer()
@@ -131,11 +140,11 @@ struct SearchGameView: View {
                   }.frame(width: UIScreen.main.bounds.width)
                 } else {
                   VStack {
-                    ForEach(searchGamePresenter.resultGames, id: \.id) { game in
-//                      searchGamePresenter.linkBuilder(for: game) {
+                    ForEach(searchGamePresenter.list, id: \.id) { game in
+                      self.detailGameLinkBuilder(id: game.id ?? 0) {
                         SearchGameCard(game: game)
                           .padding(.bottom, 20)
-//                      }
+                      }
                     }
                   }
                 }
@@ -146,18 +155,27 @@ struct SearchGameView: View {
           .padding(.trailing, 18)
         }
         .onAppear {
-          searchGamePresenter.getTopRatingGames()
-          searchGamePresenter.getUser()
+//          searchGamePresenter.getTopRatingGames()
+//          searchGamePresenter.getUser()
         }
         .padding(.bottom, 10)
-        .navigationTitle(searchGamePresenter.resultGames.isEmpty ? "Search" : "Search Results (\(searchGamePresenter.resultGames.count))")
-        .navigationBarItems(trailing:
-                              searchGamePresenter.linkToProfileView {
-          ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
-        }
-        )
+        .navigationTitle(searchGamePresenter.list.isEmpty ? "Search" : "Search Results (\(searchGamePresenter.list.count))")
+//        .navigationBarItems(trailing:
+//                              searchGamePresenter.linkToProfileView {
+//          ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
+//        }
+//        )
       }
     }
     .navigationViewStyle(StackNavigationViewStyle())
+  }
+}
+
+extension SearchGameView {
+  func detailGameLinkBuilder<Content: View>(
+    id: Int,
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: SearchGameRouter().makeDetailView(id: id)) { content() }
   }
 }

@@ -5,19 +5,18 @@
 //  Created by Dimas Putro on 21/11/21.
 //
 
-import Foundation
 import SwiftUI
+import Game
+import Core
 
 class SearchGameRouter {
 
-//  func makeDetailView(for game: GameModel) -> some View {
-//    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
-//    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
-//
-//    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
-//
-//    return GameDetailView(game: game, detailPresenter: detailPresenter)
-//  }
+  func makeDetailView(id: Int) -> some View {
+      let useCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>> = Injection.init().provideDetailGame()
+      let detailPresenter = GetDetailPresenter(useCase: useCase)
+
+      return GameDetailView(id: id, detailPresenter: detailPresenter)
+  }
 
   func makeProfileView() -> some View {
     let userUserCase = Injection.init().provideUser()

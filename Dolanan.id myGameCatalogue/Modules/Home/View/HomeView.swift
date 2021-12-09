@@ -11,8 +11,8 @@ import Game
 
 struct HomeView: View {
   
-  @ObservedObject var homePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
-  
+  @ObservedObject var homePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
+//  GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>
   @State var carouselIndex: Int = 0
   @State var carousels: [CarouselModel] = [
     CarouselModel(id: 41494, title: "Cyberpunk 2077", image: "carousel"),

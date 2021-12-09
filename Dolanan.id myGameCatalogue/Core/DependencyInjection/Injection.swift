@@ -17,10 +17,9 @@ final class Injection: NSObject {
   var realm = try! Realm()
 
   // 1
-  func provideHome<U: UseCase>() -> U where U.Request == Any, U.Response == [GameDomainModel] {
+  func provideHome<U: UseCase>() -> U where U.Request == String, U.Response == [GameDomainModel] {
     let locale = GetGamesLocaleDataSource(realm: realm)
-
-    let remote = GetGamesRemoteDataSource(endpoint: "\(Constants.api)games?key=\(Constants.apiKey)&page=1")
+    let remote = GetGamesRemoteDataSource(endpoint: "\(Constants.api)games", apiKey: Constants.apiKey)
 
     let mapper = GameTransformer()
 
@@ -33,13 +32,16 @@ final class Injection: NSObject {
   }
 
   func provideDetailGame<U: UseCase>() -> U where U.Request == Int, U.Response == GameDetailDomainModel {
+    let locale = GetGamesLocaleDataSource(realm: realm)
     let remote = GetGameRemoteDataSource(endpoint: "\(Constants.api)games", apiKey: Constants.apiKey)
 
-    let mapper = GameDetailTransformer()
+    let mapper = GameTransformer()
 
     let repository = GetGameRepository(
-        remoteDataSource: remote,
-        mapper: mapper)
+      localDataSource: locale,
+      remoteDataSource: remote,
+        mapper: mapper
+    )
 
     return Interactor(repository: repository) as! U
   }

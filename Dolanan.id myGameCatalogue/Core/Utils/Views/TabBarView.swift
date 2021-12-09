@@ -11,8 +11,9 @@ import Game
 
 struct TabBarView: View {
 
-  @EnvironmentObject var homePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
-  @EnvironmentObject var searchGamePresenter: SearchGamePresenter
+  @EnvironmentObject var homePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
+  @EnvironmentObject var searchGamePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
+//  @EnvironmentObject var searchGamePresenter: SearchGamePresenter
   @EnvironmentObject var favoriteGamePresenter: FavoriteGamePresenter
 
   var body: some View {

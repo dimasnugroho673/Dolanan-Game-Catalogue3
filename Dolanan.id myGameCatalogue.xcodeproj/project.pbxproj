@@ -419,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				40A0204127490AEA008329D4 /* CustomErrors.swift */,
+				40A020A12749F2CD008329D4 /* GameDetailReponse.swift */,
 				40A0204227490AEA008329D4 /* All.swift */,
 			);
 			path = Extensions;
@@ -482,7 +483,6 @@
 			isa = PBXGroup;
 			children = (
 				40A0204F27490AEA008329D4 /* GamesReponse.swift */,
-				40A020A12749F2CD008329D4 /* GameDetailReponse.swift */,
 				40A0208D27495889008329D4 /* CreatorsReponse.swift */,
 			);
 			path = Response;

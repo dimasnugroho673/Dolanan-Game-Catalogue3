@@ -11,14 +11,10 @@ import Core
 import Game
 import UIKit
 
-let gameUseCase: Interactor<Any, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>> = Injection.init().provideHome()
+let gameUseCase: Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>> = Injection.init().provideHome()
 
 @main
 struct DolananIdMyGameCatalogueApp: App {
-
-//  @UIApplicationDelegateAdaptor(MyAppDelegate.self) var appDelegate
-
-//  var realm: Realm!
 
   let homePresenter = GetListPresenter(useCase: gameUseCase)
 //  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
@@ -36,9 +32,6 @@ struct DolananIdMyGameCatalogueApp: App {
         .environmentObject(favoriteGamePresenter)
         .environmentObject(onboardingPresenter)
         .environmentObject(profilePresenter)
-        .onAppear {
-//          self.realm = try! Realm()
-        }
     }
   }
 }

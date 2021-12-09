@@ -13,22 +13,25 @@ import Core
 class HomeRouter {
 
   func makeDetailView(id: Int) -> some View {
-
-      let useCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGameRemoteDataSource, GameDetailTransformer>> = Injection.init().provideDetailGame()
-
+      let useCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>> = Injection.init().provideDetailGame()
       let detailPresenter = GetDetailPresenter(useCase: useCase)
 
       return GameDetailView(id: id, detailPresenter: detailPresenter)
-  }
 
-//  func makeDetailView(for game: GameModel, id: Int) -> some View {
-//    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
-//    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
+//    let gameUseCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameDetailTransformer>> = Injection.init().provideDetailGame()
 //
-//    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+//    let favoriteGameUseCase: Interactor<
+//        GameDomainModel,
+//        GameDetailModel,
+//        UpdateFavoriteGameRepository<
+//            GetFavoriteGameRepository,
+//            GameTransformer>
+//    > = Injection.init().provideDetailGame()
 //
-//    return GameDetailView(id: id, game: game, detailPresenter: detailPresenter)
-//  }
+//    let presenter = GameDetailPresenter(gameUseCase: gameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+//
+//    return GameDetailView(
+  }
   
   func makeProfileView() -> some View {
     let userUserCase = Injection.init().provideUser()

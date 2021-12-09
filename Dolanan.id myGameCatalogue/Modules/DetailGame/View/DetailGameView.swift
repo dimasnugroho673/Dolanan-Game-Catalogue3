@@ -18,8 +18,12 @@ struct GameDetailView: View {
   @Environment(\.colorScheme) var colorScheme
   
   var id: Int?
-  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGameRemoteDataSource, GameDetailTransformer>>>
-  //  @ObservedObject var homePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
+  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
+//  @ObservedObject var detailPresenter: GameDetailPresenter<
+//    Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>,
+////    Interactor<String, GameDetailDomainModel, UpdateFavoriteGameRepository<GetGamesLocaleDataSource.Response, GameTransformer>>
+//      Interactor<GameDomainModel, GameDetailDomainModel, UpdateFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>
+//  >
   @State var isFavorite: Bool = false
   
   let hapticFeebackMedium = UIImpactFeedbackGenerator(style: .medium)
@@ -79,17 +83,17 @@ struct GameDetailView: View {
 //                }
 //              }.buttonStyle(RemoveBookmarkButtonStyle())
 //            } else {
-//              Button(action: {
-//                addFavoriteButtonTap()
-//                hapticFeebackMedium.impactOccurred()
-//              }) {
-//                HStack {
-//                  Text("Favorite")
-//                    .font(.body)
-//                    .fontWeight(.bold)
-//                  Image(systemName: "star")
-//                }
-//              }.buttonStyle(AddBookmarkButtonStyle())
+              Button(action: {
+                addFavoriteButtonTap()
+                hapticFeebackMedium.impactOccurred()
+              }) {
+                HStack {
+                  Text("Favorite")
+                    .font(.body)
+                    .fontWeight(.bold)
+                  Image(systemName: "star")
+                }
+              }.buttonStyle(AddBookmarkButtonStyle())
 //            }
 //          }
           
@@ -228,10 +232,11 @@ struct GameDetailView: View {
     }
   }
   
-  //  func addFavoriteButtonTap() {
-  //    detailPresenter.addGameToFavorite(data: GameModel(id: detailPresenter.gameDetail?.id ?? 0, name: detailPresenter.gameDetail?.name ?? "", released: detailPresenter.gameDetail?.released ?? "", backgroundImage: detailPresenter.gameDetail?.backgroundImage ?? "", rating: detailPresenter.gameDetail?.rating ?? 0.0, genres: nil, screenshots: nil))
-  //    self.isFavorite = true
-  //  }
+    func addFavoriteButtonTap() {
+//      detailPresenter.addGameToFavorite(request: detailPresenter.detail?.id ?? 0)
+//      detailPresenter.addGameToFavorite(request: GameModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
+//      self.isFavorite = true
+    }
   
   //  func removeFavoriteButtonTap() {
   //    detailPresenter.removeGameFromFavorite(id: (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0)
