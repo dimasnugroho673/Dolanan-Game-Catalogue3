@@ -12,13 +12,15 @@ import Game
 import UIKit
 
 let gameUseCase: Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>> = Injection.init().provideHome()
+let searchUseCase: Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>> = Injection.init().provideSearchGame()
 
 @main
 struct DolananIdMyGameCatalogueApp: App {
 
   let homePresenter = GetListPresenter(useCase: gameUseCase)
+  let searchGamePresenter = GetListPresenter(useCase: searchUseCase)
 //  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
-  let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame(), userUseCase: Injection.init().provideUser())
+//  let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame(), userUseCase: Injection.init().provideUser())
   let favoriteGamePresenter = FavoriteGamePresenter(favoriteGameUseCase: Injection.init().provideFavoriteGame(), userUseCase: Injection.init().provideUser())
   let onboardingPresenter = OnboardingPresenter(userUseCase: Injection.init().provideOnboarding())
   let profilePresenter = ProfilePresenter(userUseCase: Injection.init().provideUser())

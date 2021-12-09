@@ -12,10 +12,24 @@ import Core
 class SearchGameRouter {
 
   func makeDetailView(id: Int) -> some View {
-      let useCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>> = Injection.init().provideDetailGame()
-      let detailPresenter = GetDetailPresenter(useCase: useCase)
+    let gameUseCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>> = Injection.init().provideDetailGame()
 
-      return GameDetailView(id: id, detailPresenter: detailPresenter)
+    let favoriteGameUseCase: Interactor<
+        GameDomainModel,
+        Bool,
+        UpdateFavoriteGameRepository<
+          GetGamesLocaleDataSource,
+            GameTransformer>
+    > = Injection.init().provideUpdateFavoriteGame()
+
+    let presenter = GameDetailPresenter(gameUseCase: gameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+
+    return GameDetailView(id: id, detailPresenter: presenter)
+    
+//      let useCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>> = Injection.init().provideDetailGame()
+//      let detailPresenter = GetDetailPresenter(useCase: useCase)
+//
+//      return GameDetailView(id: id, detailPresenter: detailPresenter)
   }
 
   func makeProfileView() -> some View {

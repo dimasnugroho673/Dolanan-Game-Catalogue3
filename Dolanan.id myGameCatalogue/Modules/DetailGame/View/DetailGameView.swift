@@ -18,12 +18,14 @@ struct GameDetailView: View {
   @Environment(\.colorScheme) var colorScheme
   
   var id: Int?
-  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
-//  @ObservedObject var detailPresenter: GameDetailPresenter<
-//    Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>,
-////    Interactor<String, GameDetailDomainModel, UpdateFavoriteGameRepository<GetGamesLocaleDataSource.Response, GameTransformer>>
-//      Interactor<GameDomainModel, GameDetailDomainModel, UpdateFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>
-//  >
+
+//  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
+
+  @ObservedObject var detailPresenter: GameDetailPresenter<
+    Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>,
+    Interactor<GameDomainModel, Bool, UpdateFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>
+  >
+
   @State var isFavorite: Bool = false
   
   let hapticFeebackMedium = UIImpactFeedbackGenerator(style: .medium)
@@ -222,9 +224,9 @@ struct GameDetailView: View {
       })
       .onAppear {
 //        let idReplace = (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0
-        
-        detailPresenter.getDetail(request: self.id)
-        
+
+          detailPresenter.getDetail(request: self.id ?? 0)
+
         // check is this game contain in favorite DB?
 //        detailPresenter.getFavoriteGames()
 //        self.isFavorite = detailPresenter.games.filter { $0.id == idReplace }.count > 0
@@ -233,6 +235,7 @@ struct GameDetailView: View {
   }
   
     func addFavoriteButtonTap() {
+      detailPresenter.addGameToFavorite(request: GameDomainModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
 //      detailPresenter.addGameToFavorite(request: detailPresenter.detail?.id ?? 0)
 //      detailPresenter.addGameToFavorite(request: GameModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
 //      self.isFavorite = true
