@@ -7,10 +7,11 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Game
 
 struct FavoriteGameCard: View {
 
-  var game: GameModel
+  var game: GameDomainModel
 
   var body: some View {
     VStack(alignment: .leading) {

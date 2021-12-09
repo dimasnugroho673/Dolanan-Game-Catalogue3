@@ -7,20 +7,23 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Core
+import Game
 
 struct FavoriteGameView: View {
 
-  @ObservedObject var favoriteGamePresenter: FavoriteGamePresenter
+  @ObservedObject var favoriteGamePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>>
+//  @ObservedObject var favoriteGamePresenter: FavoriteGamePresenter
 
   var body: some View {
     NavigationView {
       VStack {
-        if favoriteGamePresenter.games.isEmpty {
+        if favoriteGamePresenter.list.isEmpty {
           Text("No favorite added")
             .foregroundColor(.gray)
         } else {
           ScrollView(.vertical, showsIndicators: false) {
-            ForEach(favoriteGamePresenter.games, id: \.id) { game in
+            ForEach(favoriteGamePresenter.list, id: \.id) { game in
 //              favoriteGamePresenter.linkBuilder(for: game) {
                 FavoriteGameCard(game: game)
                   .padding(.leading, 18)
@@ -32,17 +35,17 @@ struct FavoriteGameView: View {
         }
       }
       .onAppear {
-        favoriteGamePresenter.getFavoriteGames()
-        favoriteGamePresenter.getUser()
+        favoriteGamePresenter.getList(request: "")
+//        favoriteGamePresenter.getUser()
       }
 
       .navigationTitle("Favorite")
       .navigationBarTitleDisplayMode(.large)
-      .navigationBarItems(trailing:
-                            favoriteGamePresenter.linkToProfileView {
-        ProfilePictureNavbar(profileImageData: favoriteGamePresenter.user?.profilePicture ?? Data())
-      }
-      )
+//      .navigationBarItems(trailing:
+//                            favoriteGamePresenter.linkToProfileView {
+//        ProfilePictureNavbar(profileImageData: favoriteGamePresenter.user?.profilePicture ?? Data())
+//      }
+//      )
     }
   }
 }

@@ -84,7 +84,6 @@ struct HomeView: View {
           if homePresenter.list.count == 0 {
             homePresenter.getList(request: nil)
           }
-          
 //          homePresenter.getCarousels()
 //          homePresenter.getUser()
         }

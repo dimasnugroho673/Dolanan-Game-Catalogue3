@@ -74,6 +74,18 @@ final class Injection: NSObject {
     return Interactor(repository: repository) as! U
   }
 
+  func provideFavoriteGame<U: UseCase>() -> U where U.Request == Any, U.Response == [GameDomainModel] {
+    let locale = GetGamesLocaleDataSource(realm: realm)
+
+    let mapper = GameTransformer()
+
+    let repository = GetFavoriteGameRepository(
+      localDataSource: locale,
+        mapper: mapper)
+
+    return Interactor(repository: repository) as! U
+  }
+
   func provideGameRepository() -> GameRepositoryProtocol {
 
     // realm injection
@@ -113,11 +125,11 @@ final class Injection: NSObject {
 //    return SearchGameInteractor(repository: repository)
 //  }
 
-  func provideFavoriteGame() -> FavoriteGameUseCase {
-    let repository = provideGameRepository()
-
-    return FavoriteGameInteractor(repository: repository)
-  }
+//  func provideFavoriteGame() -> FavoriteGameUseCase {
+//    let repository = provideGameRepository()
+//
+//    return FavoriteGameInteractor(repository: repository)
+//  }
 
   func provideOnboarding() -> UserUseCase {
     let repository = provideUserRepository()
