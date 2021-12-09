@@ -159,7 +159,7 @@ struct SearchGameView: View {
 //          searchGamePresenter.getUser()
         }
         .padding(.bottom, 10)
-        .navigationTitle(searchGamePresenter.list.isEmpty ? "Search" : "Search Results (\(searchGamePresenter.list.count))")
+        .navigationTitle("Search")
 //        .navigationBarItems(trailing:
 //                              searchGamePresenter.linkToProfileView {
 //          ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())

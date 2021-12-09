@@ -19,7 +19,7 @@ struct GameDetailView: View {
   
   var id: Int?
 
-//  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
+  //  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
 
   @ObservedObject var detailPresenter: GameDetailPresenter<
     Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>,
@@ -70,21 +70,20 @@ struct GameDetailView: View {
             .font(.callout)
             .foregroundColor(Color.init(.systemGray))
             .padding(.top, -10)
-          
-          //          HStack(spacing: 15) {
-//          if detailPresenter.gameDetail?.backgroundImage ?? "" != "" {
-//            if isFavorite {
-//              Button(action: {
-//                removeFavoriteButtonTap()
-//              }) {
-//                HStack {
-//                  Text("Remove")
-//                    .font(.body)
-//                    .fontWeight(.bold)
-//                  Image(systemName: "star.fill")
-//                }
-//              }.buttonStyle(RemoveBookmarkButtonStyle())
-//            } else {
+
+          if detailPresenter.detail?.backgroundImage ?? "" != "" {
+            if isFavorite {
+              Button(action: {
+                removeFavoriteButtonTap()
+              }) {
+                HStack {
+                  Text("Remove")
+                    .font(.body)
+                    .fontWeight(.bold)
+                  Image(systemName: "star.fill")
+                }
+              }.buttonStyle(RemoveBookmarkButtonStyle())
+            } else {
               Button(action: {
                 addFavoriteButtonTap()
                 hapticFeebackMedium.impactOccurred()
@@ -96,8 +95,8 @@ struct GameDetailView: View {
                   Image(systemName: "star")
                 }
               }.buttonStyle(AddBookmarkButtonStyle())
-//            }
-//          }
+            }
+          }
           
           Text("Rating")
             .font(.system(size: 20, weight: .bold))
@@ -223,26 +222,23 @@ struct GameDetailView: View {
         }
       })
       .onAppear {
-//        let idReplace = (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0
+        detailPresenter.getDetail(request: self.id ?? 0)
 
-          detailPresenter.getDetail(request: self.id ?? 0)
-
-        // check is this game contain in favorite DB?
-//        detailPresenter.getFavoriteGames()
-//        self.isFavorite = detailPresenter.games.filter { $0.id == idReplace }.count > 0
+        self.isFavorite = detailPresenter.favoriteGames.filter { $0 == self.id ?? 0 }.count > 0
+        print("FAVORITE GAMES: \n \(detailPresenter.favoriteGames)")
       }
     }
   }
   
-    func addFavoriteButtonTap() {
-      detailPresenter.addGameToFavorite(request: GameDomainModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
-//      detailPresenter.addGameToFavorite(request: detailPresenter.detail?.id ?? 0)
-//      detailPresenter.addGameToFavorite(request: GameModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
-//      self.isFavorite = true
-    }
+  func addFavoriteButtonTap() {
+    detailPresenter.addGameToFavorite(request: GameDomainModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
+
+    self.isFavorite = true
+  }
   
-  //  func removeFavoriteButtonTap() {
-  //    detailPresenter.removeGameFromFavorite(id: (game.id ?? 0) != 0 ? game.id ?? 0 : self.id ?? 0)
-  //    self.isFavorite = false
-  //  }
+  func removeFavoriteButtonTap() {
+    detailPresenter.removeGameFromFavorite(request: GameDomainModel(id: detailPresenter.detail?.id ?? 0, name: detailPresenter.detail?.name ?? "", released: detailPresenter.detail?.released ?? "", backgroundImage: detailPresenter.detail?.backgroundImage ?? "", rating: detailPresenter.detail?.rating ?? 0.0, genres: [], screenshots: []))
+
+    self.isFavorite = false
+  }
 }
