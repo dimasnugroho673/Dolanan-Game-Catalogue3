@@ -60,7 +60,7 @@ struct EditProfileView: View {
                 )
                 .clipShape(Circle())
             } else {
-              self.defaultUserPhotoContent
+              defaultUserPhotoContent
             }
           })
         }
@@ -85,7 +85,7 @@ struct EditProfileView: View {
         }
         .padding(.top, 30)
         
-        self.formUserDataContent
+        formUserDataContent
       }
       .background(Color.init(.systemGray6))
       

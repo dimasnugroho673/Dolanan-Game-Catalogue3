@@ -32,7 +32,7 @@ struct ProfileView: View {
   var body: some View {
     ScrollView(.vertical) {
       ZStack(alignment: .top) {
-        self.userDataContent
+        userDataContent
           .onAppear {
             /// fetch user data
             self.fetchUserData()

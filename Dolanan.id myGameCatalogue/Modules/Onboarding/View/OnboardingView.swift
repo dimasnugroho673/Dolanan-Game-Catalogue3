@@ -24,9 +24,9 @@ struct OnboardingView: View {
   
   var body: some View {
     ZStack {
-      self.imageSlideShowContent
+      imageSlideShowContent
       
-      self.promotionContent
+      promotionContent
     }
     .ignoresSafeArea(.all)
   }

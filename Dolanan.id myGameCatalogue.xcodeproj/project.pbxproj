@@ -261,7 +261,6 @@
 			children = (
 				402F575A274BC8A1008E4604 /* Presenter */,
 				402F575B274BC8A8008E4604 /* View */,
-				402F575C274BC8B2008E4604 /* Router */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -282,13 +281,6 @@
 				402F5760274BC8FA008E4604 /* EditProfileView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		402F575C274BC8B2008E4604 /* Router */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Router;
 			sourceTree = "<group>";
 		};
 		40A0201727490A89008329D4 = {
