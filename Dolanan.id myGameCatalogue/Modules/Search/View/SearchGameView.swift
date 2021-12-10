@@ -11,10 +11,11 @@ import Game
 
 struct SearchGameView: View {
   
-//  @ObservedObject var searchGamePresenter: SearchGamePresenter
+  //  @ObservedObject var searchGamePresenter: SearchGamePresenter
   @ObservedObject var searchGamePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
   
   @State private var isEditing: Bool = false
+  @State var photoProfileUser: Data = Data()
   @State private var topRatingGames: [TopRatingGamesModel] = [
     TopRatingGamesModel(title: "Cyberpunk 2077"),
     TopRatingGamesModel(title: "Final Fantasy VII Remake Intergrade"),
@@ -155,16 +156,16 @@ struct SearchGameView: View {
           .padding(.trailing, 18)
         }
         .onAppear {
-//          searchGamePresenter.getTopRatingGames()
-//          searchGamePresenter.getUser()
+          //          searchGamePresenter.getTopRatingGames()
+          photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
         }
         .padding(.bottom, 10)
         .navigationTitle("Search")
-//        .navigationBarItems(trailing:
-//                              searchGamePresenter.linkToProfileView {
-//          ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
-//        }
-//        )
+          .navigationBarItems(trailing:
+                                self.profileLinkBuilder {
+            ProfilePictureNavbar(profileImageData: photoProfileUser)
+          }
+          )
       }
     }
     .navigationViewStyle(StackNavigationViewStyle())
@@ -177,5 +178,11 @@ extension SearchGameView {
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: SearchGameRouter().makeDetailView(id: id)) { content() }
+  }
+  
+  func profileLinkBuilder<Content: View>(
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: SearchGameRouter().makeProfileView()) { content() }
   }
 }

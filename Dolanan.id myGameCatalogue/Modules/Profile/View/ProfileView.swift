@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Core
+import User
 
 struct ProfileView: View {
 
@@ -15,8 +17,10 @@ struct ProfileView: View {
 
   @State var isEditModalShow: Bool = false
 
-  @ObservedObject var profilePresenter: ProfilePresenter
-  @ObservedObject var editProfilePresenter: EditProfilePresenter
+//  @ObservedObject var profilePresenter: ProfilePresenter
+  //  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
+  @ObservedObject var profilePresenter: GetDetailPresenter<Any, UserDomainModel, Interactor<Any, UserDomainModel, GetUserRepository<GetUserLocaleDataSource, UserTransformer>>>
+  @ObservedObject var editProfilePresenter: UserEditPresenter<Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>>>
 
   @State var profileImageData: Data = Data()
   @State var fullname: String = ""
@@ -31,8 +35,8 @@ struct ProfileView: View {
         VStack {
           VStack {
 
-            if profilePresenter.user?.profilePicture ?? Data() != Data() {
-              let decoded = (try? PropertyListDecoder().decode(Data.self, from: profilePresenter.user!.profilePicture!)) ?? Data()
+            if profilePresenter.detail?.profilePicture ?? Data() != Data() {
+              let decoded = (try? PropertyListDecoder().decode(Data.self, from: profilePresenter.detail!.profilePicture!)) ?? Data()
 
               Image(uiImage: UIImage(data: decoded)!)
                 .resizable()
@@ -47,7 +51,7 @@ struct ProfileView: View {
                 .clipShape(Circle())
             }
 
-            Text(profilePresenter.user?.name ?? "")
+            Text(profilePresenter.detail?.name ?? "")
               .font(.title2)
               .fontWeight(.bold)
               .padding(.top, 10)
@@ -59,25 +63,25 @@ struct ProfileView: View {
           VStack(alignment: .leading, spacing: 12) {
             HStack {
               Image(systemName: "envelope")
-              Text(profilePresenter.user?.email ?? "")
+              Text(profilePresenter.detail?.email ?? "")
             }
 
             HStack {
               Image(systemName: "phone")
-              Text(profilePresenter.user?.phoneNumber ?? "")
+              Text(profilePresenter.detail?.phoneNumber ?? "")
             }
 
             HStack {
               Image(systemName: "network")
-              Text(profilePresenter.user?.website ?? "")
+              Text(profilePresenter.detail?.website ?? "")
             }
           }
 
           Spacer().frame(height: 50)
 
-          if profilePresenter.user?.githubUrl ?? "" != "" {
+          if profilePresenter.detail?.githubUrl ?? "" != "" {
             Button(action: {
-              openURL(URL(string: profilePresenter.user?.githubUrl ?? "")!)
+              openURL(URL(string: profilePresenter.detail?.githubUrl ?? "")!)
             }) {
               HStack {
                 Spacer()
@@ -104,7 +108,7 @@ struct ProfileView: View {
         }
         .onAppear {
           /// fetch user data
-          self.profilePresenter.getUser()
+          self.profilePresenter.getDetail(request: nil)
         }
       }
     }
@@ -127,18 +131,18 @@ struct ProfileView: View {
     }, label: {
       Text("Edit")
     })
-                          .sheet(isPresented: $isEditModalShow, onDismiss: {
-      self.profilePresenter.getUser()
+     .sheet(isPresented: $isEditModalShow, onDismiss: {
+      self.profilePresenter.getDetail(request: nil)
 
       /// fill state variable with data
-      self.fullname = profilePresenter.user?.name ?? ""
-      self.email = profilePresenter.user?.email ?? ""
-      self.noHP = profilePresenter.user?.phoneNumber ?? ""
-      self.website = profilePresenter.user?.website ?? ""
-      self.githubLink = profilePresenter.user?.githubUrl ?? ""
-      self.profileImageData = profilePresenter.user?.profilePicture ?? Data()
+      self.fullname = profilePresenter.detail?.name ?? ""
+      self.email = profilePresenter.detail?.email ?? ""
+      self.noHP = profilePresenter.detail?.phoneNumber ?? ""
+      self.website = profilePresenter.detail?.website ?? ""
+      self.githubLink = profilePresenter.detail?.githubUrl ?? ""
+      self.profileImageData = profilePresenter.detail?.profilePicture ?? Data()
     }, content: {
-      EditProfileView(user: profilePresenter.user, editProfilePresenter: editProfilePresenter)
+      EditProfileView(user: profilePresenter.detail, editProfilePresenter: editProfilePresenter)
     })
     )
   }

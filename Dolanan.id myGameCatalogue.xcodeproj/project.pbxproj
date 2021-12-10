@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		400A4C97276278450068680B /* User in Frameworks */ = {isa = PBXBuildFile; productRef = 400A4C96276278450068680B /* User */; };
 		402F5729274A2B05008E4604 /* SearchGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F5728274A2B05008E4604 /* SearchGameInteractor.swift */; };
 		402F572B274A2E1F008E4604 /* SearchGamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F572A274A2E1F008E4604 /* SearchGamePresenter.swift */; };
 		402F572D274A6A57008E4604 /* SearchGameCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F572C274A6A57008E4604 /* SearchGameCard.swift */; };
@@ -172,6 +173,7 @@
 				40BAA96C275D5C67003444DB /* RealmSwift in Frameworks */,
 				40A0207B274915C8008329D4 /* RxCocoa in Frameworks */,
 				40A0207327491584008329D4 /* Alamofire in Frameworks */,
+				400A4C97276278450068680B /* User in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +654,7 @@
 				40BAA966275D5B61003444DB /* Game */,
 				40BAA969275D5C67003444DB /* Realm */,
 				40BAA96B275D5C67003444DB /* RealmSwift */,
+				400A4C96276278450068680B /* User */,
 			);
 			productName = "Dolanan.id myGameCatalogue";
 			productReference = 40A0202027490A89008329D4 /* Dolanan.id myGameCatalogue.app */;
@@ -1143,6 +1146,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		400A4C96276278450068680B /* User */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = User;
+		};
 		40A0207227491584008329D4 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 40A0207127491584008329D4 /* XCRemoteSwiftPackageReference "Alamofire" */;

@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import User
+import Core
 
 struct EditProfileView: View {
   
   @Environment(\.presentationMode) private var presentation
   
-  var user: UserModel?
+  var user: UserDomainModel?
   
   @State var profileImageData: Data = Data()
   @State var name: String = ""
@@ -20,7 +22,7 @@ struct EditProfileView: View {
   @State var website: String = ""
   @State var githubUrl: String = ""
   
-  @ObservedObject var editProfilePresenter: EditProfilePresenter
+  @ObservedObject var editProfilePresenter: UserEditPresenter<Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>>>
   
   @State var isShowProfilePickerSheet = false
   @State var isGalleryPicker = false
@@ -153,11 +155,12 @@ struct EditProfileView: View {
         
         ToolbarItem(placement: .navigationBarTrailing, content: {
           Button(action: {
-            self.editProfilePresenter.updateUser(data: UserModel(id: "0", name: self.name, email: self.email, phoneNumber: self.phoneNumber, website: self.website, githubUrl: self.githubUrl, profilePicture: self.profileImageData))
-            
-            if self.editProfilePresenter.updateUserStatus {
+            self.editProfilePresenter.updateUser(request: UserDomainModel(id: "0", name: self.name, email: self.email, phoneNumber: self.phoneNumber, website: self.website, githubUrl: self.githubUrl, profilePicture: self.profileImageData))
+//            self.editProfilePresenter.updateUser(data: UserModel(id: "0", name: self.name, email: self.email, phoneNumber: self.phoneNumber, website: self.website, githubUrl: self.githubUrl, profilePicture: self.profileImageData))
+//            
+//            if self.editProfilePresenter.updateUserStatus {
               self.presentation.wrappedValue.dismiss()
-            }
+//            }
           }, label: {
             Text("Done")
           })

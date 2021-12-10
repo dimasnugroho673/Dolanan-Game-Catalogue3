@@ -6,16 +6,11 @@
 //
 
 import UIKit
-//import RealmSwift
 
 class MyAppDelegate: NSObject, UIApplicationDelegate {
 
-//  var realm: Realm!
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
     print("hi from app delegate")
-
-//    realm = try! Realm()
 
     return true
   }

@@ -12,15 +12,10 @@ import Game
 struct HomeView: View {
   
   @ObservedObject var homePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
-//  GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>
+
   @State var carouselIndex: Int = 0
-  @State var carousels: [CarouselModel] = [
-    CarouselModel(id: 41494, title: "Cyberpunk 2077", image: "carousel"),
-    CarouselModel(id: 10061, title: "Watch Dogs 2", image: "carousel4"),
-    CarouselModel(id: 2828, title: "Naruto Ultimate Ninja Storm 4", image: "carousel3"),
-    CarouselModel(id: 452645, title: "Hitman 3", image: "carousel2"),
-    CarouselModel(id: 437059, title: "Assassin's Creed Valhalla", image: "carousel5")
-  ]
+  @State var photoProfileUser: Data = Data()
+  @State var carousels: [CarouselModel] = []
   
   var body: some View {
     NavigationView {
@@ -84,18 +79,24 @@ struct HomeView: View {
           if homePresenter.list.count == 0 {
             homePresenter.getList(request: nil)
           }
-//          homePresenter.getCarousels()
-//          homePresenter.getUser()
+
+          photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
+
+          self.fetchCarousels()
         }
         
         .navigationTitle("Home")
-//        .navigationBarItems(trailing:
-//                              homePresenter.linkToProfileView {
-//          ProfilePictureNavbar(profileImageData: homePresenter.user?.profilePicture ?? Data())
-//        }
-//        )
+        .navigationBarItems(trailing:
+                              self.profileLinkBuilder {
+          ProfilePictureNavbar(profileImageData: photoProfileUser)
+        }
+        )
       }
     }
+  }
+
+  private func fetchCarousels() {
+    carousels = dataCarousels
   }
   
 }
@@ -106,5 +107,11 @@ extension HomeView {
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: HomeRouter().makeDetailView(id: id)) { content() }
+  }
+
+  func profileLinkBuilder<Content: View>(
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: HomeRouter().makeProfileView()) { content() }
   }
 }

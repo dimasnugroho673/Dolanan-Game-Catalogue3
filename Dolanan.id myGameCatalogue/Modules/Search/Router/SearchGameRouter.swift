@@ -8,6 +8,7 @@
 import SwiftUI
 import Game
 import Core
+import User
 
 class SearchGameRouter {
 
@@ -33,12 +34,20 @@ class SearchGameRouter {
   }
 
   func makeProfileView() -> some View {
-    let userUserCase = Injection.init().provideUser()
+//    let userUserCase = Injection.init().provideUser()
+//
+//    let profilePresenter = ProfilePresenter(userUseCase: userUserCase)
+//    let editProfilePresenter = EditProfilePresenter(userUseCase: userUserCase)
+//
+//    return ProfileView(profilePresenter: profilePresenter, editProfilePresenter: editProfilePresenter)
 
-    let profilePresenter = ProfilePresenter(userUseCase: userUserCase)
-    let editProfilePresenter = EditProfilePresenter(userUseCase: userUserCase)
+    let userUseCase: Interactor<Any, UserDomainModel, GetUserRepository<GetUserLocaleDataSource, UserTransformer>> = Injection.init().provideUser()
+    let editUserUseCase: Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>> = Injection.init().provideUpdateUser()
 
-    return ProfileView(profilePresenter: profilePresenter, editProfilePresenter: editProfilePresenter)
+    let detailUserPresenter = GetDetailPresenter(useCase: userUseCase)
+    let editUserPresenter = UserEditPresenter(userUseCase: editUserUseCase)
+
+    return ProfileView(profilePresenter: detailUserPresenter, editProfilePresenter: editUserPresenter)
   }
   
 }

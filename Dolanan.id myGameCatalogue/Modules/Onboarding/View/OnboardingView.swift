@@ -6,20 +6,28 @@
 //
 
 import SwiftUI
+import User
+import Core
 
 struct OnboardingView: View {
-  
-  @ObservedObject var onboardingPresenter: OnboardingPresenter
-  
+
   @Environment(\.presentationMode) private var presentation
-  @State private var activeImage = 0
-  @Binding var isUserExist: Bool
   
+//  @ObservedObject var onboardingPresenter: OnboardingPresenter
+//  @ObservedObject var onboardingPresenter: GetDetailPresenter<UserDomainModel, UserDomainModel, Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>>>
+//  @ObservedObject var onboardingPresenter: GetDetailPresenter
+
+  @ObservedObject var onboardingPresenter: UserEditPresenter<Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>>>
+
+  @Binding var isUserExist: Bool
+  @State private var activeImage = 0
+  @State private var images: [String] = ["onboarding", "onboarding2", "onboarding3"]
+
   private let timerShowcase = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
   
   var body: some View {
     ZStack {
-      Image(onboardingPresenter.images[activeImage])
+      Image(images[activeImage])
         .resizable()
         .aspectRatio(contentMode: .fill)
         .animation(.spring())
@@ -31,7 +39,7 @@ struct OnboardingView: View {
             .opacity(0.7)
         )
         .onReceive(timerShowcase) { _ in
-          self.activeImage = (self.activeImage + 1) % self.onboardingPresenter.images.count
+          self.activeImage = (self.activeImage + 1) % self.images.count
         }
       
       HStack {
@@ -50,7 +58,7 @@ struct OnboardingView: View {
             UserDefaults.standard.setValue(true, forKey: "UserExist")
             
             /// insert data dummy
-            onboardingPresenter.createUser(data: UserModel(id: "0", name: "Dimas Nugroho Putro", email: "dimasnugroho673@gmail.com", phoneNumber: "082285592029", website: "dimasnugroho673.github.io", githubUrl: "https://github.com/dimasnugroho673", profilePicture: Data()))
+            onboardingPresenter.updateUser(request: UserDomainModel(id: "0", name: "Dimas Nugroho Putro", email: "dimasnugroho673@gmail.com", phoneNumber: "082285592029", website: "dimasnugroho673.github.io", githubUrl: "https://github.com/dimasnugroho673", profilePicture: Data()))
             
             self.isUserExist = true
             self.presentation.wrappedValue.dismiss()

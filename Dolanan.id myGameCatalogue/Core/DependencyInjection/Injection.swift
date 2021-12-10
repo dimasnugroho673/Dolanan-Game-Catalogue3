@@ -10,6 +10,7 @@ import RealmSwift
 import Core
 import Game
 import UIKit
+import User
 
 final class Injection: NSObject {
 
@@ -76,7 +77,6 @@ final class Injection: NSObject {
 
   func provideFavoriteGame<U: UseCase>() -> U where U.Request == Any, U.Response == [GameDomainModel] {
     let locale = GetGamesLocaleDataSource(realm: realm)
-
     let mapper = GameTransformer()
 
     let repository = GetFavoriteGameRepository(
@@ -85,6 +85,33 @@ final class Injection: NSObject {
 
     return Interactor(repository: repository) as! U
   }
+
+  func provideUser<U: UseCase>() -> U where U.Request == Any, U.Response == UserDomainModel {
+    let locale = GetUserLocaleDataSource(realm: realm)
+    let mapper = UserTransformer()
+
+    let repository = GetUserRepository(
+      localDataSource: locale,
+        mapper: mapper
+    )
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideUpdateUser<U: UseCase>() -> U where U.Request == UserDomainModel, U.Response == UserDomainModel {
+    let locale = GetUserLocaleDataSource(realm: realm)
+    let mapper = UserTransformer()
+
+    let repository = UpdateUserRepository(
+      localDataSource: locale,
+        mapper: mapper
+    )
+
+    return Interactor(repository: repository) as! U
+  }
+
+//
+//
 
   func provideGameRepository() -> GameRepositoryProtocol {
 
@@ -137,10 +164,10 @@ final class Injection: NSObject {
     return UserInteractor(repository: repository)
   }
 
-  func provideUser() -> UserUseCase {
-    let repository = provideUserRepository()
-
-    return UserInteractor(repository: repository)
-  }
+//  func provideUser() -> UserUseCase {
+//    let repository = provideUserRepository()
+//
+//    return UserInteractor(repository: repository)
+//  }
 
 }
