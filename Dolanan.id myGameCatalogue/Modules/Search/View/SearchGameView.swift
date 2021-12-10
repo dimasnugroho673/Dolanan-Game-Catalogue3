@@ -12,7 +12,6 @@ import Common
 
 struct SearchGameView: View {
   
-  //  @ObservedObject var searchGamePresenter: SearchGamePresenter
   @ObservedObject var searchGamePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
   
   @State private var isEditing: Bool = false
