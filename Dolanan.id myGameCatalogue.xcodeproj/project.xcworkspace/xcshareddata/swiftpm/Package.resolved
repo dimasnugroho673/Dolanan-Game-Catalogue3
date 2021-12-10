@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "Realm",
+        "repositoryURL": "https://github.com/realm/realm-cocoa",
+        "state": {
+          "branch": null,
+          "revision": "7ec5df0a700ef76ad930dcedb9c63c1b354979e1",
+          "version": "5.5.1"
+        }
+      },
+      {
         "package": "RealmCore",
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
