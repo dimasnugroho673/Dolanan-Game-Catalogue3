@@ -11,15 +11,15 @@ import Core
 import Common
 
 struct OnboardingView: View {
-
+  
   @Environment(\.presentationMode) private var presentation
-
+  
   @ObservedObject var onboardingPresenter: UserEditPresenter<Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>>>
-
+  
   @Binding var isUserExist: Bool
   @State private var activeImage = 0
   @State private var images: [String] = ["onboarding", "onboarding2", "onboarding3"]
-
+  
   private let timerShowcase = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
   
   var body: some View {
@@ -33,7 +33,7 @@ struct OnboardingView: View {
 }
 
 extension OnboardingView {
-
+  
   private var imageSlideShowContent: some View {
     Image(images[activeImage])
       .resizable()
@@ -50,7 +50,7 @@ extension OnboardingView {
         self.activeImage = (self.activeImage + 1) % self.images.count
       }
   }
-
+  
   private var promotionContent: some View {
     HStack {
       VStack {
@@ -59,18 +59,18 @@ extension OnboardingView {
           .font(.title)
           .bold()
           .multilineTextAlignment(.center)
-
+        
         Text("\(LocalizedLang.explore) - \(LocalizedLang.discover) - \(LocalizedLang.play)")
           .foregroundColor(Color.init(.systemGray3))
           .font(.subheadline)
           .padding(.top, 5)
-
+        
         Button(action: {
           UserDefaults.standard.setValue(true, forKey: "UserExist")
-
+          
           /// insert data dummy
           self.updateUserData()
-
+          
           self.isUserExist = true
           self.presentation.wrappedValue.dismiss()
         }, label: {
@@ -86,7 +86,7 @@ extension OnboardingView {
     .padding(.bottom, 20)
     .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height, alignment: .bottom)
   }
-
+  
   private func updateUserData() {
     self.onboardingPresenter.updateUser(request: UserDomainModel(id: "0", name: "Dimas Nugroho Putro", email: "dimasnugroho673@gmail.com", phoneNumber: "082285592029", website: "dimasnugroho673.github.io", githubUrl: "https://github.com/dimasnugroho673", profilePicture: Data()))
   }

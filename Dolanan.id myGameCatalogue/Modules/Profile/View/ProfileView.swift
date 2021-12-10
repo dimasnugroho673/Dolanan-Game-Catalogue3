@@ -33,14 +33,14 @@ struct ProfileView: View {
     ScrollView(.vertical) {
       ZStack(alignment: .top) {
         self.userDataContent
-        .onAppear {
-          /// fetch user data
-          self.fetchUserData()
+          .onAppear {
+            /// fetch user data
+            self.fetchUserData()
 
-          self.fillUserContainerDataState()
+            self.fillUserContainerDataState()
 
-          self.fillUserDataState()
-        }
+            self.fillUserDataState()
+          }
       }
     }
     .navigationTitle(LocalizedLang.profile).navigationBarTitleDisplayMode(.large)
@@ -62,7 +62,7 @@ struct ProfileView: View {
     }, label: {
       Text(LocalizedLang.edit)
     })
-    .sheet(isPresented: $isEditModalShow, onDismiss: {
+                          .sheet(isPresented: $isEditModalShow, onDismiss: {
       /// fetch user data
       self.fetchUserData()
 
