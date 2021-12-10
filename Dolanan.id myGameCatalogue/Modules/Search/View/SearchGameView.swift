@@ -125,16 +125,16 @@ struct SearchGameView: View {
         }
         .onAppear {
           self.fetchTopRatingGames()
-
+          
           photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
         }
         .padding(.bottom, 10)
         .navigationTitle(LocalizedLang.search)
-          .navigationBarItems(trailing:
-                                self.profileLinkBuilder {
-            ProfilePictureNavbar(profileImageData: photoProfileUser)
-          }
-          )
+        .navigationBarItems(trailing:
+                              self.profileLinkBuilder {
+          ProfilePictureNavbar(profileImageData: photoProfileUser)
+        }
+        )
       }
     }
     .navigationViewStyle(StackNavigationViewStyle())
@@ -142,11 +142,11 @@ struct SearchGameView: View {
 }
 
 extension SearchGameView {
-
+  
   private var loadingIndicator: some View {
     LoadingIndicator()
   }
-
+  
   private var resultEmptyContent: some View {
     HStack(alignment: .center) {
       VStack(alignment: .center) {
@@ -161,7 +161,7 @@ extension SearchGameView {
       .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2, alignment: .center)
     }.frame(width: UIScreen.main.bounds.width)
   }
-
+  
   private var resultSearchContent: some View {
     VStack {
       ForEach(searchGamePresenter.list, id: \.id) { game in
@@ -172,11 +172,11 @@ extension SearchGameView {
       }
     }
   }
-
+  
   private func fetchTopRatingGames() {
     self.topRatingGames = dataTopRatingGames
   }
-
+  
   func detailGameLinkBuilder<Content: View>(
     id: Int,
     @ViewBuilder content: () -> Content
