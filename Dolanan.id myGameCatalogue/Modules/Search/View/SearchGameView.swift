@@ -17,13 +17,7 @@ struct SearchGameView: View {
   
   @State private var isEditing: Bool = false
   @State var photoProfileUser: Data = Data()
-  @State private var topRatingGames: [TopRatingGamesModel] = [
-    TopRatingGamesModel(title: "Cyberpunk 2077"),
-    TopRatingGamesModel(title: "Final Fantasy VII Remake Intergrade"),
-    TopRatingGamesModel(title: "Hitman 3"),
-    TopRatingGamesModel(title: "Watch Dogs 2"),
-    TopRatingGamesModel(title: "Assassin's Creed Valhalla")
-  ]
+  @State private var topRatingGames: [TopRatingGamesModel] = []
   
   var body: some View {
     NavigationView {
@@ -116,39 +110,12 @@ struct SearchGameView: View {
               .padding(.leading, -20)
             } else {
               if searchGamePresenter.isLoading {
-                HStack(alignment: .center) {
-                  Spacer()
-                  VStack {
-                    Spacer()
-                    LoadingState().padding(.top, 10)
-                    Text("LOADING").font(.caption).foregroundColor(.gray).padding(.top, 5)
-                    Spacer()
-                  }
-                  Spacer()
-                }.frame(width: .infinity, height: UIScreen.main.bounds.height / 2, alignment: .center)
+                loadingIndicator
               } else {
                 if searchGamePresenter.list.isEmpty {
-                  HStack(alignment: .center) {
-                    VStack(alignment: .center) {
-                      Spacer()
-                      Image(systemName: "questionmark.folder")
-                        .resizable()
-                        .frame(width: 36, height: 30)
-                        .foregroundColor(.gray)
-                      Text(LocalizedLang.dataNotFound).font(.callout).foregroundColor(.gray).padding(.top, 5)
-                      Spacer()
-                    }
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2, alignment: .center)
-                  }.frame(width: UIScreen.main.bounds.width)
+                  resultEmptyContent
                 } else {
-                  VStack {
-                    ForEach(searchGamePresenter.list, id: \.id) { game in
-                      self.detailGameLinkBuilder(id: game.id ?? 0) {
-                        SearchGameCard(game: game)
-                          .padding(.bottom, 20)
-                      }
-                    }
-                  }
+                  resultSearchContent
                 }
               }
             }
@@ -157,7 +124,8 @@ struct SearchGameView: View {
           .padding(.trailing, 18)
         }
         .onAppear {
-          //          searchGamePresenter.getTopRatingGames()
+          self.fetchTopRatingGames()
+
           photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
         }
         .padding(.bottom, 10)
@@ -174,6 +142,41 @@ struct SearchGameView: View {
 }
 
 extension SearchGameView {
+
+  private var loadingIndicator: some View {
+    LoadingIndicator()
+  }
+
+  private var resultEmptyContent: some View {
+    HStack(alignment: .center) {
+      VStack(alignment: .center) {
+        Spacer()
+        Image(systemName: "questionmark.folder")
+          .resizable()
+          .frame(width: 36, height: 30)
+          .foregroundColor(.gray)
+        Text(LocalizedLang.dataNotFound).font(.callout).foregroundColor(.gray).padding(.top, 5)
+        Spacer()
+      }
+      .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2, alignment: .center)
+    }.frame(width: UIScreen.main.bounds.width)
+  }
+
+  private var resultSearchContent: some View {
+    VStack {
+      ForEach(searchGamePresenter.list, id: \.id) { game in
+        self.detailGameLinkBuilder(id: game.id ?? 0) {
+          SearchGameCard(game: game)
+            .padding(.bottom, 20)
+        }
+      }
+    }
+  }
+
+  private func fetchTopRatingGames() {
+    self.topRatingGames = dataTopRatingGames
+  }
+
   func detailGameLinkBuilder<Content: View>(
     id: Int,
     @ViewBuilder content: () -> Content

@@ -14,7 +14,7 @@ import Common
 struct FavoriteGameView: View {
 
   @ObservedObject var favoriteGamePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>>
-//  @ObservedObject var favoriteGamePresenter: FavoriteGamePresenter
+
   @State var photoProfileUser: Data = Data()
 
   var body: some View {
@@ -37,8 +37,7 @@ struct FavoriteGameView: View {
         }
       }
       .onAppear {
-        favoriteGamePresenter.getList(request: "")
-//        favoriteGamePresenter.getUser()
+        self.fetchFavoriteGames()
 
         photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
       }
@@ -55,14 +54,18 @@ struct FavoriteGameView: View {
 }
 
 extension FavoriteGameView {
-  func detailGameLinkBuilder<Content: View>(
+  private func fetchFavoriteGames() {
+    self.favoriteGamePresenter.getList(request: "")
+  }
+
+  private func detailGameLinkBuilder<Content: View>(
     id: Int,
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: FavoriteGameRouter().makeDetailView(id: id)) { content() }
   }
 
-  func profileLinkBuilder<Content: View>(
+  private func profileLinkBuilder<Content: View>(
     @ViewBuilder content: () -> Content
   ) -> some View {
     NavigationLink(destination: HomeRouter().makeProfileView()) { content() }

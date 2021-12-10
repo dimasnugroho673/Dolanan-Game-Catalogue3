@@ -407,7 +407,7 @@
 				40A0203D27490AEA008329D4 /* DataMapper */,
 				40A0203F27490AEA008329D4 /* Network */,
 				40A0204027490AEA008329D4 /* Extensions */,
-				40A0204327490AEA008329D4 /* Views */,
+				40A0204327490AEA008329D4 /* Components */,
 				40A020992749E7E3008329D4 /* Constants.swift */,
 			);
 			path = Utils;
@@ -439,7 +439,7 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		40A0204327490AEA008329D4 /* Views */ = {
+		40A0204327490AEA008329D4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				40A0204427490AEA008329D4 /* PopularGameCard.swift */,
@@ -452,7 +452,7 @@
 				402F5757274B7913008E4604 /* ProfilePictureNavbar.swift */,
 				40E1E916274D41D400E281AE /* ImagePicker.swift */,
 			);
-			path = Views;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		40A0204727490AEA008329D4 /* Data */ = {
