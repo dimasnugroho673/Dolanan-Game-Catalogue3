@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 import Core
 import Game
+import Common
 
 struct FavoriteGameView: View {
 
@@ -20,7 +21,7 @@ struct FavoriteGameView: View {
     NavigationView {
       VStack {
         if favoriteGamePresenter.list.isEmpty {
-          Text("No favorite added")
+          Text(LocalizedLang.emptyFavorite)
             .foregroundColor(.gray)
         } else {
           ScrollView(.vertical, showsIndicators: false) {
@@ -42,7 +43,7 @@ struct FavoriteGameView: View {
         photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
       }
 
-      .navigationTitle("Favorite")
+      .navigationTitle(LocalizedLang.favorite)
       .navigationBarTitleDisplayMode(.large)
       .navigationBarItems(trailing:
                             self.profileLinkBuilder {

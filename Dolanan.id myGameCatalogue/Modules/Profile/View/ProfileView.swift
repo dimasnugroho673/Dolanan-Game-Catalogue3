@@ -8,6 +8,7 @@
 import SwiftUI
 import Core
 import User
+import Common
 
 struct ProfileView: View {
 
@@ -15,12 +16,11 @@ struct ProfileView: View {
   @Environment(\.openURL) var openURL
   @Environment(\.colorScheme) var colorScheme
 
-  @State var isEditModalShow: Bool = false
-
-//  @ObservedObject var profilePresenter: ProfilePresenter
-  //  @ObservedObject var detailPresenter: GetDetailPresenter<Int, GameDetailDomainModel, Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>>>
   @ObservedObject var profilePresenter: GetDetailPresenter<Any, UserDomainModel, Interactor<Any, UserDomainModel, GetUserRepository<GetUserLocaleDataSource, UserTransformer>>>
   @ObservedObject var editProfilePresenter: UserEditPresenter<Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>>>
+
+  @State private var containerData: UserDomainModel = UserDomainModel(id: "", name: "", email: "", phoneNumber: "", website: "", githubUrl: "", profilePicture: Data())
+  @State var isEditModalShow: Bool = false
 
   @State var profileImageData: Data = Data()
   @State var fullname: String = ""
@@ -32,87 +32,18 @@ struct ProfileView: View {
   var body: some View {
     ScrollView(.vertical) {
       ZStack(alignment: .top) {
-        VStack {
-          VStack {
-
-            if profilePresenter.detail?.profilePicture ?? Data() != Data() {
-              let decoded = (try? PropertyListDecoder().decode(Data.self, from: profilePresenter.detail!.profilePicture!)) ?? Data()
-
-              Image(uiImage: UIImage(data: decoded)!)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-            } else {
-              Image("my-profile")
-                .resizable()
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-            }
-
-            Text(profilePresenter.detail?.name ?? "")
-              .font(.title2)
-              .fontWeight(.bold)
-              .padding(.top, 10)
-          }
-          .padding(.top, 20)
-
-          Spacer().frame(height: 30)
-
-          VStack(alignment: .leading, spacing: 12) {
-            HStack {
-              Image(systemName: "envelope")
-              Text(profilePresenter.detail?.email ?? "")
-            }
-
-            HStack {
-              Image(systemName: "phone")
-              Text(profilePresenter.detail?.phoneNumber ?? "")
-            }
-
-            HStack {
-              Image(systemName: "network")
-              Text(profilePresenter.detail?.website ?? "")
-            }
-          }
-
-          Spacer().frame(height: 50)
-
-          if profilePresenter.detail?.githubUrl ?? "" != "" {
-            Button(action: {
-              openURL(URL(string: profilePresenter.detail?.githubUrl ?? "")!)
-            }) {
-              HStack {
-                Spacer()
-                HStack {
-                  Image(colorScheme == .light ? "icon-github_white" : "icon-github_black")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-
-                  Text("View on GitHub")
-                    .font(.callout)
-                    .fontWeight(.bold)
-                    .padding()
-                }
-
-                Spacer()
-              }
-            }
-            .frame(width: 230, height: 50)
-            .background(colorScheme == .light ? Color.black : Color.white)
-            .foregroundColor(colorScheme == .light ? Color.white : Color.black)
-            .cornerRadius(15)
-          }
-
-        }
+        self.userDataContent
         .onAppear {
           /// fetch user data
-          self.profilePresenter.getDetail(request: nil)
+          self.fetchUserData()
+
+          self.fillUserContainerDataState()
+
+          self.fillUserDataState()
         }
       }
     }
-    .navigationTitle("Profile").navigationBarTitleDisplayMode(.large)
+    .navigationTitle(LocalizedLang.profile).navigationBarTitleDisplayMode(.large)
     .navigationBarBackButtonHidden(true)
     .navigationBarItems(leading:
                           Button(action: {
@@ -129,21 +60,114 @@ struct ProfileView: View {
                           Button(action: {
       self.isEditModalShow = true
     }, label: {
-      Text("Edit")
+      Text(LocalizedLang.edit)
     })
-     .sheet(isPresented: $isEditModalShow, onDismiss: {
-      self.profilePresenter.getDetail(request: nil)
+    .sheet(isPresented: $isEditModalShow, onDismiss: {
+      /// fetch user data
+      self.fetchUserData()
 
       /// fill state variable with data
-      self.fullname = profilePresenter.detail?.name ?? ""
-      self.email = profilePresenter.detail?.email ?? ""
-      self.noHP = profilePresenter.detail?.phoneNumber ?? ""
-      self.website = profilePresenter.detail?.website ?? ""
-      self.githubLink = profilePresenter.detail?.githubUrl ?? ""
-      self.profileImageData = profilePresenter.detail?.profilePicture ?? Data()
+      self.fillUserDataState()
     }, content: {
-      EditProfileView(user: profilePresenter.detail, editProfilePresenter: editProfilePresenter)
+      EditProfileView(user: self.containerData, editProfilePresenter: editProfilePresenter)
     })
     )
+  }
+}
+
+extension ProfileView {
+
+  private var userDataContent: some View {
+    VStack {
+      VStack {
+
+        if self.profileImageData != Data() {
+          let decoded = (try? PropertyListDecoder().decode(Data.self, from: self.profileImageData)) ?? Data()
+
+          Image(uiImage: UIImage(data: decoded)!)
+            .resizable()
+            .scaledToFill()
+            .frame(width: 100, height: 100)
+            .clipShape(Circle())
+        } else {
+          Image("my-profile")
+            .resizable()
+            .scaledToFill()
+            .frame(width: 100, height: 100)
+            .clipShape(Circle())
+        }
+
+        Text(self.fullname)
+          .font(.title2)
+          .fontWeight(.bold)
+          .padding(.top, 10)
+      }
+      .padding(.top, 20)
+
+      Spacer().frame(height: 30)
+
+      VStack(alignment: .leading, spacing: 12) {
+        HStack {
+          Image(systemName: "envelope")
+          Text(self.email)
+        }
+
+        HStack {
+          Image(systemName: "phone")
+          Text(self.noHP)
+        }
+
+        HStack {
+          Image(systemName: "network")
+          Text(self.website)
+        }
+      }
+
+      Spacer().frame(height: 50)
+
+      if self.githubLink != "" {
+        Button(action: {
+          openURL(URL(string: self.githubLink)!)
+        }) {
+          HStack {
+            Spacer()
+            HStack {
+              Image(colorScheme == .light ? "icon-github_white" : "icon-github_black")
+                .resizable()
+                .frame(width: 25, height: 25)
+
+              Text(LocalizedLang.viewOnGithub)
+                .font(.callout)
+                .fontWeight(.bold)
+                .padding()
+            }
+
+            Spacer()
+          }
+        }
+        .frame(width: 230, height: 50)
+        .background(colorScheme == .light ? Color.black : Color.white)
+        .foregroundColor(colorScheme == .light ? Color.white : Color.black)
+        .cornerRadius(15)
+      }
+
+    }
+  }
+
+  private func fetchUserData() {
+    self.profilePresenter.getDetail(request: nil)
+  }
+
+  private func fillUserDataState() {
+    self.fullname = profilePresenter.detail?.name ?? ""
+    self.email = profilePresenter.detail?.email ?? ""
+    self.noHP = profilePresenter.detail?.phoneNumber ?? ""
+    self.website = profilePresenter.detail?.website ?? ""
+    self.githubLink = profilePresenter.detail?.githubUrl ?? ""
+    self.profileImageData = profilePresenter.detail?.profilePicture ?? Data()
+  }
+
+  private func fillUserContainerDataState() {
+    self.containerData = profilePresenter.detail ?? UserDomainModel(id: "", name: "", email: "", phoneNumber: "", website: "", githubUrl: "", profilePicture: Data())
   }
 }

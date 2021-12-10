@@ -8,6 +8,7 @@
 import SwiftUI
 import Core
 import Game
+import Common
 
 struct HomeView: View {
   
@@ -42,7 +43,7 @@ struct HomeView: View {
           self.fetchPhotoProfileUser()
         }
         
-        .navigationTitle("Home")
+        .navigationTitle(LocalizedLang.home)
         .navigationBarItems(trailing:
                               self.profileLinkBuilder {
           ProfilePictureNavbar(profileImageData: photoProfileUser)
@@ -89,7 +90,7 @@ extension HomeView {
 
   private var popularGameContent: some View {
     VStack(alignment: .leading) {
-      Text("Popular Game")
+      Text(LocalizedLang.popular)
         .font(.title3)
         .bold()
         .padding(.top, 20)

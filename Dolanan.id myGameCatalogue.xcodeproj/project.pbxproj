@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		400A4C97276278450068680B /* User in Frameworks */ = {isa = PBXBuildFile; productRef = 400A4C96276278450068680B /* User */; };
+		400A4C9A27630D2F0068680B /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 400A4C9927630D2F0068680B /* Common */; };
 		402F5729274A2B05008E4604 /* SearchGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F5728274A2B05008E4604 /* SearchGameInteractor.swift */; };
 		402F572B274A2E1F008E4604 /* SearchGamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F572A274A2E1F008E4604 /* SearchGamePresenter.swift */; };
 		402F572D274A6A57008E4604 /* SearchGameCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402F572C274A6A57008E4604 /* SearchGameCard.swift */; };
@@ -91,6 +92,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		400A4C9827630D260068680B /* Common */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Common; path = Modules/Common; sourceTree = "<group>"; };
 		402F5728274A2B05008E4604 /* SearchGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGameInteractor.swift; sourceTree = "<group>"; };
 		402F572A274A2E1F008E4604 /* SearchGamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamePresenter.swift; sourceTree = "<group>"; };
 		402F572C274A6A57008E4604 /* SearchGameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGameCard.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				400A4C9A27630D2F0068680B /* Common in Frameworks */,
 				40A0208A27491A7E008329D4 /* SDWebImageSwiftUI in Frameworks */,
 				40BAA95A275C90BE003444DB /* Core in Frameworks */,
 				40A0207F274915C8008329D4 /* RxSwift in Frameworks */,
@@ -187,6 +190,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		400A4CAB2763A7100068680B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		402F5734274A90EE008E4604 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +294,7 @@
 		40A0201727490A89008329D4 = {
 			isa = PBXGroup;
 			children = (
+				400A4C9827630D260068680B /* Common */,
 				40BAA95C275CD1AE003444DB /* User */,
 				40BAA95B275CCB16003444DB /* Game */,
 				4091422D275518110007A947 /* Core */,
@@ -306,6 +317,7 @@
 		40A0202227490A89008329D4 /* Dolanan.id myGameCatalogue */ = {
 			isa = PBXGroup;
 			children = (
+				400A4CAB2763A7100068680B /* Resources */,
 				40A0205927490AEA008329D4 /* App */,
 				40A0203B27490AEA008329D4 /* Core */,
 				40A0203327490AEA008329D4 /* Modules */,
@@ -655,6 +667,7 @@
 				40BAA969275D5C67003444DB /* Realm */,
 				40BAA96B275D5C67003444DB /* RealmSwift */,
 				400A4C96276278450068680B /* User */,
+				400A4C9927630D2F0068680B /* Common */,
 			);
 			productName = "Dolanan.id myGameCatalogue";
 			productReference = 40A0202027490A89008329D4 /* Dolanan.id myGameCatalogue.app */;
@@ -704,6 +717,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"id-ID",
 			);
 			mainGroup = 40A0201727490A89008329D4;
 			packageReferences = (
@@ -973,6 +987,8 @@
 				DEVELOPMENT_TEAM = D7589S3EHF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Dolanan-id-myGameCatalogue-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Need to access the camera for taking profile photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1004,6 +1020,8 @@
 				DEVELOPMENT_TEAM = D7589S3EHF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Dolanan-id-myGameCatalogue-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Need to access the camera for taking profile photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1149,6 +1167,10 @@
 		400A4C96276278450068680B /* User */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = User;
+		};
+		400A4C9927630D2F0068680B /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
 		};
 		40A0207227491584008329D4 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

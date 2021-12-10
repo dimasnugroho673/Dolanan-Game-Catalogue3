@@ -10,6 +10,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 import Game
 import Core
+import Common
 
 struct GameDetailView: View {
   
@@ -41,7 +42,7 @@ struct GameDetailView: View {
             .resizable()
             .frame(width: 42, height: 30)
             .foregroundColor(.gray)
-          Text("Terjadi kesalahan pada server").font(.body).foregroundColor(.gray).padding(.top, 5)
+          Text(LocalizedLang.serverError).font(.body).foregroundColor(.gray).padding(.top, 5)
           Spacer()
         }
         Spacer()
@@ -77,7 +78,7 @@ struct GameDetailView: View {
                 removeFavoriteButtonTap()
               }) {
                 HStack {
-                  Text("Remove")
+                  Text(LocalizedLang.remove)
                     .font(.body)
                     .fontWeight(.bold)
                   Image(systemName: "star.fill")
@@ -89,7 +90,7 @@ struct GameDetailView: View {
                 hapticFeebackMedium.impactOccurred()
               }) {
                 HStack {
-                  Text("Favorite")
+                  Text(LocalizedLang.favorite)
                     .font(.body)
                     .fontWeight(.bold)
                   Image(systemName: "star")
@@ -111,7 +112,7 @@ struct GameDetailView: View {
           }
           .padding(.top, 0)
           
-          Text("Description")
+          Text(LocalizedLang.description)
             .font(.system(size: 20, weight: .bold))
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 5)
@@ -120,14 +121,14 @@ struct GameDetailView: View {
             .font(.subheadline)
             .foregroundColor(colorScheme == .light ? Color.black : Color.white)
           
-          Text("Information")
+          Text(LocalizedLang.information)
             .font(.system(size: 20, weight: .bold))
             .foregroundColor(colorScheme == .light ? .black : .white)
             .padding(.top, 5)
           
           List {
             HStack {
-              Text("Relased Date")
+              Text(LocalizedLang.releasedDate)
                 .foregroundColor(.gray)
                 .font(.subheadline)
               Spacer()
@@ -136,7 +137,7 @@ struct GameDetailView: View {
             }
             
             HStack {
-              Text("Age Rating")
+              Text(LocalizedLang.ageRating)
                 .foregroundColor(.gray)
                 .font(.subheadline)
               Spacer()
@@ -145,7 +146,7 @@ struct GameDetailView: View {
             }
             
             HStack {
-              Text("Platform")
+              Text(LocalizedLang.platform)
                 .foregroundColor(.gray)
                 .font(.subheadline)
               Spacer()
@@ -154,16 +155,16 @@ struct GameDetailView: View {
             }
             
             HStack {
-              Text("Playtime")
+              Text(LocalizedLang.playtime)
                 .foregroundColor(.gray)
                 .font(.subheadline)
               Spacer()
-              Text("\(detailPresenter.detail?.playtime ?? 0) Hour")
+              Text("\(detailPresenter.detail?.playtime ?? 0) \(LocalizedLang.hour)")
                 .font(.subheadline)
             }
             
             HStack {
-              Text("Developer Website")
+              Text(LocalizedLang.developerWebsite)
                 .foregroundColor(.accentColor)
                 .font(.subheadline)
                 .onTapGesture {
@@ -179,7 +180,7 @@ struct GameDetailView: View {
             }
             
             HStack {
-              Text("View all reviews")
+              Text(LocalizedLang.viewReviews)
                 .foregroundColor(.accentColor)
                 .font(.subheadline)
                 .onTapGesture {
@@ -225,7 +226,6 @@ struct GameDetailView: View {
         detailPresenter.getDetail(request: self.id ?? 0)
 
         self.isFavorite = detailPresenter.favoriteGames.filter { $0 == self.id ?? 0 }.count > 0
-        print("FAVORITE GAMES: \n \(detailPresenter.favoriteGames)")
       }
     }
   }

@@ -8,6 +8,7 @@
 import SwiftUI
 import User
 import Core
+import Common
 
 struct OnboardingView: View {
 
@@ -44,12 +45,13 @@ struct OnboardingView: View {
       
       HStack {
         VStack {
-          Text("Find your best game")
+          Text(LocalizedLang.onboardingTitle)
             .foregroundColor(.white)
             .font(.title)
             .bold()
+            .multilineTextAlignment(.center)
           
-          Text("Explore - Discover - Play")
+          Text("\(LocalizedLang.explore) - \(LocalizedLang.discover) - \(LocalizedLang.play)")
             .foregroundColor(Color.init(.systemGray3))
             .font(.subheadline)
             .padding(.top, 5)
@@ -63,7 +65,7 @@ struct OnboardingView: View {
             self.isUserExist = true
             self.presentation.wrappedValue.dismiss()
           }, label: {
-            Text("Get started")
+            Text(LocalizedLang.getStarted)
               .font(.body)
               .fontWeight(.bold)
           })

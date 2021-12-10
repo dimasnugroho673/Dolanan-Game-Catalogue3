@@ -8,6 +8,7 @@
 import SwiftUI
 import Core
 import Game
+import Common
 
 struct SearchGameView: View {
   
@@ -30,7 +31,7 @@ struct SearchGameView: View {
         ScrollView(showsIndicators: false) {
           VStack(alignment: .leading) {
             HStack {
-              TextField("Search game", text: $searchGamePresenter.keywordCounter)
+              TextField("\(LocalizedLang.search) game", text: $searchGamePresenter.keywordCounter)
                 .onReceive(searchGamePresenter.$keywordCounter.debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)) {
                   guard !$0.isEmpty else { return }
                   
@@ -76,7 +77,7 @@ struct SearchGameView: View {
                   // Dismiss the keyboard
                   UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
-                  Text("Cancel")
+                  Text(LocalizedLang.cancel)
                 }
                 .padding(.trailing, 10)
                 .transition(.move(edge: .trailing))
@@ -86,7 +87,7 @@ struct SearchGameView: View {
             
             if searchGamePresenter.keywordCounter == "" {
               VStack(alignment: .leading) {
-                Text("Top rate game")
+                Text(LocalizedLang.topRateGame)
                   .font(.title2)
                   .bold()
                   .padding(.top, 40)
@@ -134,7 +135,7 @@ struct SearchGameView: View {
                         .resizable()
                         .frame(width: 36, height: 30)
                         .foregroundColor(.gray)
-                      Text("Data tidak ditemukan").font(.callout).foregroundColor(.gray).padding(.top, 5)
+                      Text(LocalizedLang.dataNotFound).font(.callout).foregroundColor(.gray).padding(.top, 5)
                       Spacer()
                     }
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2, alignment: .center)
@@ -160,7 +161,7 @@ struct SearchGameView: View {
           photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
         }
         .padding(.bottom, 10)
-        .navigationTitle("Search")
+        .navigationTitle(LocalizedLang.search)
           .navigationBarItems(trailing:
                                 self.profileLinkBuilder {
             ProfilePictureNavbar(profileImageData: photoProfileUser)

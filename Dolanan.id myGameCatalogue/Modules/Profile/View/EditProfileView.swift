@@ -8,6 +8,7 @@
 import SwiftUI
 import User
 import Core
+import Common
 
 struct EditProfileView: View {
   
@@ -49,7 +50,7 @@ struct EditProfileView: View {
                     .opacity(0.6)
                   
                     .overlay(
-                      Text("EDIT")
+                      Text(LocalizedLang.edit.uppercased())
                         .foregroundColor(Color.white)
                         .font(.caption)
                         .bold()
@@ -68,7 +69,7 @@ struct EditProfileView: View {
                     .opacity(0.6)
                   
                     .overlay(
-                      Text("EDIT")
+                      Text(LocalizedLang.edit.uppercased())
                         .foregroundColor(Color.white)
                         .font(.caption)
                         .bold()
@@ -83,15 +84,15 @@ struct EditProfileView: View {
         
         .actionSheet(isPresented: $isShowEditProfilePictureActionSheet) {
           ActionSheet(
-            title: Text(""),
+            title: Text(LocalizedLang.chooseMedia),
             buttons: [
               .cancel(),
-              .default(Text("Take Photo")) {
+              .default(Text(LocalizedLang.takePhoto)) {
                 self.isShowProfilePickerSheet = true
                 self.isCameraPicker = true
                 self.isGalleryPicker = false
               },
-              .default(Text("Choose Photo")) {
+              .default(Text(LocalizedLang.chooseMedia)) {
                 self.isShowProfilePickerSheet = true
                 self.isGalleryPicker = true
                 self.isCameraPicker = false
@@ -102,7 +103,7 @@ struct EditProfileView: View {
         .padding(.top, 30)
         
         List {
-          Section(header: Text("Profile Detail"), content: {
+          Section(header: Text(LocalizedLang.profileDetail), content: {
             TextField("Fullname", text: Binding<String>(get: {
               self.name
             }, set: {
@@ -127,7 +128,7 @@ struct EditProfileView: View {
             }))
           })
           
-          Section(header: Text("Developer Only"), content: {
+          Section(header: Text(LocalizedLang.devloperOnly), content: {
             TextField("GitHub Link", text: Binding<String>(get: {
               self.githubUrl
             }, set: {
@@ -141,7 +142,7 @@ struct EditProfileView: View {
       }
       .background(Color.init(.systemGray6))
       
-      .navigationTitle("Edit profile")
+      .navigationTitle(LocalizedLang.editProfile)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar(content: {
         
@@ -149,7 +150,7 @@ struct EditProfileView: View {
           Button(action: {
             self.presentation.wrappedValue.dismiss()
           }, label: {
-            Text("Cancel")
+            Text(LocalizedLang.cancel)
           })
         })
         
@@ -162,7 +163,7 @@ struct EditProfileView: View {
               self.presentation.wrappedValue.dismiss()
 //            }
           }, label: {
-            Text("Done")
+            Text(LocalizedLang.done)
           })
         })
         

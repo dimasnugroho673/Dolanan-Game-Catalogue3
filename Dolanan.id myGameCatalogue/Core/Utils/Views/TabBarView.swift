@@ -8,6 +8,7 @@
 import SwiftUI
 import Core
 import Game
+import Common
 
 struct TabBarView: View {
 
@@ -22,19 +23,19 @@ struct TabBarView: View {
       HomeView(homePresenter: homePresenter)
         .tabItem {
           Image(systemName: "house")
-          Text("Home")
+          Text(LocalizedLang.home)
         }
 
       SearchGameView(searchGamePresenter: searchGamePresenter)
         .tabItem {
           Image(systemName: "magnifyingglass")
-          Text("Search")
+          Text(LocalizedLang.search)
         }
 
       FavoriteGameView(favoriteGamePresenter: favoriteGamePresenter)
         .tabItem {
           Image(systemName: "text.badge.star")
-          Text("Favorite")
+          Text(LocalizedLang.favorite)
         }
     }
   }
