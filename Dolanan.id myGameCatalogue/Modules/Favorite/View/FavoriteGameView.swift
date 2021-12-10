@@ -7,21 +7,26 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Core
+import Game
+import Common
 
 struct FavoriteGameView: View {
 
-  @ObservedObject var favoriteGamePresenter: FavoriteGamePresenter
+  @ObservedObject var favoriteGamePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>>
+
+  @State var photoProfileUser: Data = Data()
 
   var body: some View {
     NavigationView {
       VStack {
-        if favoriteGamePresenter.games.isEmpty {
-          Text("No favorite added")
+        if favoriteGamePresenter.list.isEmpty {
+          Text(LocalizedLang.emptyFavorite)
             .foregroundColor(.gray)
         } else {
           ScrollView(.vertical, showsIndicators: false) {
-            ForEach(favoriteGamePresenter.games, id: \.id) { game in
-              favoriteGamePresenter.linkBuilder(for: game) {
+            ForEach(favoriteGamePresenter.list, id: \.id) { game in
+              self.detailGameLinkBuilder(id: game.id ?? 0) {
                 FavoriteGameCard(game: game)
                   .padding(.leading, 18)
                   .padding(.trailing, 18)
@@ -32,17 +37,37 @@ struct FavoriteGameView: View {
         }
       }
       .onAppear {
-        favoriteGamePresenter.getFavoriteGames()
-        favoriteGamePresenter.getUser()
+        self.fetchFavoriteGames()
+
+        photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
       }
 
-      .navigationTitle("Favorite")
+      .navigationTitle(LocalizedLang.favorite)
       .navigationBarTitleDisplayMode(.large)
       .navigationBarItems(trailing:
-                            favoriteGamePresenter.linkToProfileView {
-        ProfilePictureNavbar(profileImageData: favoriteGamePresenter.user?.profilePicture ?? Data())
+                            self.profileLinkBuilder {
+        ProfilePictureNavbar(profileImageData: photoProfileUser)
       }
       )
     }
+  }
+}
+
+extension FavoriteGameView {
+  private func fetchFavoriteGames() {
+    self.favoriteGamePresenter.getList(request: "")
+  }
+
+  private func detailGameLinkBuilder<Content: View>(
+    id: Int,
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: FavoriteGameRouter().makeDetailView(id: id)) { content() }
+  }
+
+  private func profileLinkBuilder<Content: View>(
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: HomeRouter().makeProfileView()) { content() }
   }
 }

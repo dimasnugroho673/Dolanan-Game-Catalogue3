@@ -19,3 +19,18 @@ struct LoadingState: UIViewRepresentable {
     uiView.startAnimating()
   }
 }
+
+struct LoadingIndicator: View {
+  var body: some View {
+    HStack(alignment: .center) {
+      Spacer()
+      VStack {
+        Spacer()
+        LoadingState().padding(.top, 10)
+        Text("LOADING").font(.caption).foregroundColor(.gray).padding(.top, 5)
+        Spacer()
+      }
+      Spacer()
+    }.frame(width: .infinity, height: UIScreen.main.bounds.height / 2, alignment: .center)
+  }
+}

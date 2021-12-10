@@ -7,8 +7,111 @@
 
 import Foundation
 import RealmSwift
+import Core
+import Game
+import UIKit
+import User
 
 final class Injection: NSObject {
+
+//  var realm: Realm!
+  var realm = try! Realm()
+
+  // 1
+  func provideHome<U: UseCase>() -> U where U.Request == String, U.Response == [GameDomainModel] {
+    let locale = GetGamesLocaleDataSource(realm: realm)
+    let remote = GetGamesRemoteDataSource(endpoint: "\(Constants.api)games", apiKey: Constants.apiKey)
+
+    let mapper = GameTransformer()
+
+    let repository = GetGamesRepository(
+        localeDataSource: locale,
+        remoteDataSource: remote,
+        mapper: mapper)
+
+    print(self.realm.configuration.fileURL!)
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideDetailGame<U: UseCase>() -> U where U.Request == Int, U.Response == GameDetailDomainModel {
+    let locale = GetGamesLocaleDataSource(realm: realm)
+    let remote = GetGameRemoteDataSource(endpoint: "\(Constants.api)games", apiKey: Constants.apiKey)
+
+    let mapper = GameTransformer()
+
+    let repository = GetGameRepository(
+      localDataSource: locale,
+      remoteDataSource: remote,
+        mapper: mapper
+    )
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideUpdateFavoriteGame<U: UseCase>() -> U where U.Request == GameDomainModel, U.Response == Bool {
+    let locale = GetGamesLocaleDataSource(realm: realm)
+    let mapper = GameTransformer()
+
+    let repository = UpdateFavoriteGameRepository(
+      localDataSource: locale,
+        mapper: mapper
+    )
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideSearchGame<U: UseCase>() -> U where U.Request == String, U.Response == [GameDomainModel] {
+    let locale = GetGamesLocaleDataSource(realm: realm)
+    let remote = GetGamesRemoteDataSource(endpoint: "\(Constants.api)games", apiKey: Constants.apiKey)
+
+    let mapper = GameTransformer()
+
+    let repository = GetGamesRepository(
+        localeDataSource: locale,
+        remoteDataSource: remote,
+        mapper: mapper)
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideFavoriteGame<U: UseCase>() -> U where U.Request == Any, U.Response == [GameDomainModel] {
+    let locale = GetGamesLocaleDataSource(realm: realm)
+    let mapper = GameTransformer()
+
+    let repository = GetFavoriteGameRepository(
+      localDataSource: locale,
+        mapper: mapper)
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideUser<U: UseCase>() -> U where U.Request == Any, U.Response == UserDomainModel {
+    let locale = GetUserLocaleDataSource(realm: realm)
+    let mapper = UserTransformer()
+
+    let repository = GetUserRepository(
+      localDataSource: locale,
+        mapper: mapper
+    )
+
+    return Interactor(repository: repository) as! U
+  }
+
+  func provideUpdateUser<U: UseCase>() -> U where U.Request == UserDomainModel, U.Response == UserDomainModel {
+    let locale = GetUserLocaleDataSource(realm: realm)
+    let mapper = UserTransformer()
+
+    let repository = UpdateUserRepository(
+      localDataSource: locale,
+        mapper: mapper
+    )
+
+    return Interactor(repository: repository) as! U
+  }
+
+//
+//
 
   func provideGameRepository() -> GameRepositoryProtocol {
 
@@ -31,29 +134,29 @@ final class Injection: NSObject {
     return UserRepository.sharedInstance(local)
   }
 
-  func provideHome() -> HomeUseCase {
-    let repository = provideGameRepository()
+//  func provideHome() -> HomeUseCase {
+//    let repository = provideGameRepository()
+//
+//    return HomeInteractor(repository: repository)
+//  }
 
-    return HomeInteractor(repository: repository)
-  }
+//  func provideDetailGame(game: GameModel) -> DetailGameUseCase {
+//    let repository = provideGameRepository()
+//
+//    return DetailGameInteractor(repository: repository, game: game)
+//  }
 
-  func provideDetailGame(game: GameModel) -> DetailGameUseCase {
-    let repository = provideGameRepository()
+//  func provideSearchGame() -> SearchGameUseCase {
+//    let repository = provideGameRepository()
+//
+//    return SearchGameInteractor(repository: repository)
+//  }
 
-    return DetailGameInteractor(repository: repository, game: game)
-  }
-
-  func provideSearchGame() -> SearchGameUseCase {
-    let repository = provideGameRepository()
-
-    return SearchGameInteractor(repository: repository)
-  }
-
-  func provideFavoriteGame() -> FavoriteGameUseCase {
-    let repository = provideGameRepository()
-
-    return FavoriteGameInteractor(repository: repository)
-  }
+//  func provideFavoriteGame() -> FavoriteGameUseCase {
+//    let repository = provideGameRepository()
+//
+//    return FavoriteGameInteractor(repository: repository)
+//  }
 
   func provideOnboarding() -> UserUseCase {
     let repository = provideUserRepository()
@@ -61,10 +164,10 @@ final class Injection: NSObject {
     return UserInteractor(repository: repository)
   }
 
-  func provideUser() -> UserUseCase {
-    let repository = provideUserRepository()
-
-    return UserInteractor(repository: repository)
-  }
+//  func provideUser() -> UserUseCase {
+//    let repository = provideUserRepository()
+//
+//    return UserInteractor(repository: repository)
+//  }
 
 }

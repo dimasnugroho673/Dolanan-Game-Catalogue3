@@ -5,14 +5,18 @@
 //  Created by Dimas Putro on 21/11/21.
 //
 
-import Foundation
 import SwiftUI
+import Core
+import Game
+import Common
 
 struct SearchGameView: View {
   
-  @ObservedObject var searchGamePresenter: SearchGamePresenter
+  @ObservedObject var searchGamePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
   
-  @State private var isEditing = false
+  @State private var isEditing: Bool = false
+  @State var photoProfileUser: Data = Data()
+  @State private var topRatingGames: [TopRatingGamesModel] = []
   
   var body: some View {
     NavigationView {
@@ -20,12 +24,12 @@ struct SearchGameView: View {
         ScrollView(showsIndicators: false) {
           VStack(alignment: .leading) {
             HStack {
-              TextField("Search game", text: $searchGamePresenter.keywordCounter)
+              TextField("\(LocalizedLang.search) game", text: $searchGamePresenter.keywordCounter)
                 .onReceive(searchGamePresenter.$keywordCounter.debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)) {
                   guard !$0.isEmpty else { return }
                   
                   if $0.count >= 3 {
-                    self.searchGamePresenter.getGamesByKeyword(keyword: $0)
+                    self.searchGamePresenter.getList(request: $0)
                   }
                 }
                 .padding(7)
@@ -42,7 +46,7 @@ struct SearchGameView: View {
                     if isEditing {
                       Button(action: {
                         searchGamePresenter.keywordCounter = ""
-                        searchGamePresenter.resultGames = []
+                        searchGamePresenter.list = []
                       }) {
                         Image(systemName: "multiply.circle.fill")
                           .foregroundColor(.gray)
@@ -61,12 +65,12 @@ struct SearchGameView: View {
                 Button(action: {
                   self.isEditing = false
                   searchGamePresenter.keywordCounter = ""
-                  searchGamePresenter.resultGames = []
+                  searchGamePresenter.list = []
                   
                   // Dismiss the keyboard
                   UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
-                  Text("Cancel")
+                  Text(LocalizedLang.cancel)
                 }
                 .padding(.trailing, 10)
                 .transition(.move(edge: .trailing))
@@ -76,14 +80,14 @@ struct SearchGameView: View {
             
             if searchGamePresenter.keywordCounter == "" {
               VStack(alignment: .leading) {
-                Text("Top rate game")
+                Text(LocalizedLang.topRateGame)
                   .font(.title2)
                   .bold()
                   .padding(.top, 40)
                   .padding(.leading, 15)
                 
                 List {
-                  ForEach(searchGamePresenter.topRatingGames, id: \.id) { game in
+                  ForEach(self.topRatingGames, id: \.id) { game in
                     HStack {
                       Text(game.title ?? "")
                         .foregroundColor(.accentColor)
@@ -94,7 +98,7 @@ struct SearchGameView: View {
                     .onTapGesture {
                       self.isEditing = true
                       self.searchGamePresenter.keywordCounter = game.title ?? ""
-                      self.searchGamePresenter.getGamesByKeyword(keyword: game.title ?? "")
+                      self.searchGamePresenter.getList(request: game.title ?? "")
                     }
                   }
                 }
@@ -105,39 +109,12 @@ struct SearchGameView: View {
               .padding(.leading, -20)
             } else {
               if searchGamePresenter.isLoading {
-                HStack(alignment: .center) {
-                  Spacer()
-                  VStack {
-                    Spacer()
-                    LoadingState().padding(.top, 10)
-                    Text("LOADING").font(.caption).foregroundColor(.gray).padding(.top, 5)
-                    Spacer()
-                  }
-                  Spacer()
-                }.frame(width: .infinity, height: UIScreen.main.bounds.height / 2, alignment: .center)
+                loadingIndicator
               } else {
-                if searchGamePresenter.resultGames.isEmpty {
-                  HStack(alignment: .center) {
-                    VStack(alignment: .center) {
-                      Spacer()
-                      Image(systemName: "questionmark.folder")
-                        .resizable()
-                        .frame(width: 36, height: 30)
-                        .foregroundColor(.gray)
-                      Text("Data tidak ditemukan").font(.callout).foregroundColor(.gray).padding(.top, 5)
-                      Spacer()
-                    }
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2, alignment: .center)
-                  }.frame(width: UIScreen.main.bounds.width)
+                if searchGamePresenter.list.isEmpty {
+                  resultEmptyContent
                 } else {
-                  VStack {
-                    ForEach(searchGamePresenter.resultGames, id: \.id) { game in
-                      searchGamePresenter.linkBuilder(for: game) {
-                        SearchGameCard(game: game)
-                          .padding(.bottom, 20)
-                      }
-                    }
-                  }
+                  resultSearchContent
                 }
               }
             }
@@ -146,18 +123,69 @@ struct SearchGameView: View {
           .padding(.trailing, 18)
         }
         .onAppear {
-          searchGamePresenter.getTopRatingGames()
-          searchGamePresenter.getUser()
+          self.fetchTopRatingGames()
+          
+          photoProfileUser = UserDefaults.standard.data(forKey: "PhotoProfileUser") ?? Data()
         }
         .padding(.bottom, 10)
-        .navigationTitle(searchGamePresenter.resultGames.isEmpty ? "Search" : "Search Results (\(searchGamePresenter.resultGames.count))")
+        .navigationTitle(LocalizedLang.search)
         .navigationBarItems(trailing:
-                              searchGamePresenter.linkToProfileView {
-          ProfilePictureNavbar(profileImageData: searchGamePresenter.user?.profilePicture ?? Data())
+                              self.profileLinkBuilder {
+          ProfilePictureNavbar(profileImageData: photoProfileUser)
         }
         )
       }
     }
     .navigationViewStyle(StackNavigationViewStyle())
+  }
+}
+
+extension SearchGameView {
+  
+  private var loadingIndicator: some View {
+    LoadingIndicator()
+  }
+  
+  private var resultEmptyContent: some View {
+    HStack(alignment: .center) {
+      VStack(alignment: .center) {
+        Spacer()
+        Image(systemName: "questionmark.folder")
+          .resizable()
+          .frame(width: 36, height: 30)
+          .foregroundColor(.gray)
+        Text(LocalizedLang.dataNotFound).font(.callout).foregroundColor(.gray).padding(.top, 5)
+        Spacer()
+      }
+      .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2, alignment: .center)
+    }.frame(width: UIScreen.main.bounds.width)
+  }
+  
+  private var resultSearchContent: some View {
+    VStack {
+      ForEach(searchGamePresenter.list, id: \.id) { game in
+        self.detailGameLinkBuilder(id: game.id ?? 0) {
+          SearchGameCard(game: game)
+            .padding(.bottom, 20)
+        }
+      }
+    }
+  }
+  
+  private func fetchTopRatingGames() {
+    self.topRatingGames = dataTopRatingGames
+  }
+  
+  func detailGameLinkBuilder<Content: View>(
+    id: Int,
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: SearchGameRouter().makeDetailView(id: id)) { content() }
+  }
+  
+  func profileLinkBuilder<Content: View>(
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    NavigationLink(destination: SearchGameRouter().makeProfileView()) { content() }
   }
 }

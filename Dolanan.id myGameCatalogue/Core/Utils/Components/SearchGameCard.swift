@@ -7,10 +7,11 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Game
 
 struct SearchGameCard: View {
   
-  var game: GameModel
+  var game: GameDomainModel
   
   var body: some View {
     VStack(alignment: .leading, spacing: 15) {

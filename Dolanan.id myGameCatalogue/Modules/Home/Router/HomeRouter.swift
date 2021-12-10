@@ -5,27 +5,37 @@
 //  Created by Dimas Putro on 20/11/21.
 //
 
-import Foundation
 import SwiftUI
+import Game
+import Core
+import User
 
 class HomeRouter {
 
-  func makeDetailView(for game: GameModel, id: Int) -> some View {
-    let detailGameUseCase = Injection.init().provideDetailGame(game: game)
-    let favoriteGameUseCase = Injection.init().provideFavoriteGame()
+  func makeDetailView(id: Int) -> some View {
+    let gameUseCase: Interactor<Int, GameDetailDomainModel, GetGameRepository<GetGamesLocaleDataSource, GetGameRemoteDataSource, GameTransformer>> = Injection.init().provideDetailGame()
 
-    let detailPresenter = DetailGamePresenter(detailGameUseCase: detailGameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+    let favoriteGameUseCase: Interactor<
+      GameDomainModel,
+      Bool,
+      UpdateFavoriteGameRepository<
+        GetGamesLocaleDataSource,
+        GameTransformer>
+    > = Injection.init().provideUpdateFavoriteGame()
 
-    return GameDetailView(id: id, game: game, detailPresenter: detailPresenter)
+    let presenter = GameDetailPresenter(gameUseCase: gameUseCase, favoriteGameUseCase: favoriteGameUseCase)
+
+    return GameDetailView(id: id, detailPresenter: presenter)
   }
   
   func makeProfileView() -> some View {
-    let userUserCase = Injection.init().provideUser()
+    let userUseCase: Interactor<Any, UserDomainModel, GetUserRepository<GetUserLocaleDataSource, UserTransformer>> = Injection.init().provideUser()
+    let editUserUseCase: Interactor<UserDomainModel, UserDomainModel, UpdateUserRepository<GetUserLocaleDataSource, UserTransformer>> = Injection.init().provideUpdateUser()
 
-    let profilePresenter = ProfilePresenter(userUseCase: userUserCase)
-    let editProfilePresenter = EditProfilePresenter(userUseCase: userUserCase)
+    let detailUserPresenter = GetDetailPresenter(useCase: userUseCase)
+    let editUserPresenter = UserEditPresenter(userUseCase: editUserUseCase)
 
-    return ProfileView(profilePresenter: profilePresenter, editProfilePresenter: editProfilePresenter)
+    return ProfileView(profilePresenter: detailUserPresenter, editProfilePresenter: editUserPresenter)
   }
 
 }
