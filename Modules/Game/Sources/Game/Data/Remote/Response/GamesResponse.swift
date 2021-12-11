@@ -5,8 +5,6 @@
 //  Created by Dimas Putro on 05/12/21.
 //
 
-import Foundation
-
 public struct GamesReponse: Decodable {
   public var games: [GameResponse]
 

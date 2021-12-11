@@ -5,7 +5,6 @@
 //  Created by Dimas Putro on 29/11/21.
 //
 
-import Foundation
 import RxSwift
 
 public struct Interactor<Request, Response, R: Repository>: UseCase

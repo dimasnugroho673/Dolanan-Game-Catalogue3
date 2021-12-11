@@ -5,8 +5,6 @@
 //  Created by Dimas Putro on 07/12/21.
 //
 
-import Foundation
-
 public struct GameDetailResponse: Decodable {
   public let id: Int?
   public let name: String?

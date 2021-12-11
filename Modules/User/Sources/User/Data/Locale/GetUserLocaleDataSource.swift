@@ -5,7 +5,6 @@
 //  Created by Dimas Putro on 05/12/21.
 //
 
-import Foundation
 import Core
 import RealmSwift
 import RxSwift

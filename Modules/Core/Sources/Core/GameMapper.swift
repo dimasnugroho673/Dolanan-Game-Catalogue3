@@ -5,8 +5,6 @@
 //  Created by Dimas Putro on 30/11/21.
 //
 
-import Foundation
-
 public protocol GameMapper {
   associatedtype Request
   associatedtype Requests
