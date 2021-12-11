@@ -1,0 +1,5 @@
+language: swift
+osx_image: xcode13.1
+xcode_project: Dolanan.id myGameCatalogue.xcodeproj
+xcode_scheme: Dolanan.id myGameCatalogue
+xcode_destination: platform=iOS Simulator,OS=15.0,name=iPhone 12 Pro
