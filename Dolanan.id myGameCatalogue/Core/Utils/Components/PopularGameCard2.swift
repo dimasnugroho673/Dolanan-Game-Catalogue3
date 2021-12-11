@@ -15,8 +15,6 @@ struct PopularGameCard2: View {
   var isLastItem: Bool = false
   
   var body: some View {
-//    Spacer()
-//    Spacer()
     HStack(alignment: .top) {
       WebImage(url: URL(string: game.backgroundImage ?? ""))
         .resizable()
@@ -58,7 +56,5 @@ struct PopularGameCard2: View {
         }
       }
     }
-//    Spacer()
-//    Spacer()
   }
 }

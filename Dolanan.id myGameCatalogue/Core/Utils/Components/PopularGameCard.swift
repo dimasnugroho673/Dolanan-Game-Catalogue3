@@ -7,10 +7,11 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Game
 
 struct PopularGameCard: View {
 
-  var game: GameModel
+  var game: GameDomainModel
   var isLastItem: Bool = false
 
   var body: some View {

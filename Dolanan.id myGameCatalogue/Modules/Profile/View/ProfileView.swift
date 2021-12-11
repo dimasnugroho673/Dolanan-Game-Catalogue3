@@ -30,7 +30,7 @@ struct ProfileView: View {
   @State var githubLink: String = ""
   
   var body: some View {
-    ScrollView(.vertical) {
+    ScrollView(.vertical, showsIndicators: false) {
       ZStack(alignment: .top) {
         userDataContent
           .onAppear {
@@ -150,6 +150,11 @@ extension ProfileView {
         .foregroundColor(colorScheme == .light ? Color.white : Color.black)
         .cornerRadius(15)
       }
+
+      Text("v.3.0 (1)")
+        .foregroundColor(Color.gray.opacity(0.8))
+        .font(.system(size: 12))
+        .padding(.top, 20)
 
     }
   }

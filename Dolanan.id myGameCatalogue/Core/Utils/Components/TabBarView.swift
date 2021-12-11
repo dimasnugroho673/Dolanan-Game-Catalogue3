@@ -11,13 +11,11 @@ import Game
 import Common
 
 struct TabBarView: View {
-
+  
   @EnvironmentObject var homePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
   @EnvironmentObject var searchGamePresenter: GetListPresenter<String, GameDomainModel, Interactor<String, [GameDomainModel], GetGamesRepository<GetGamesLocaleDataSource, GetGamesRemoteDataSource, GameTransformer>>>
-//  @EnvironmentObject var searchGamePresenter: SearchGamePresenter
   @EnvironmentObject var favoriteGamePresenter: GetListPresenter<Any, GameDomainModel, Interactor<Any, [GameDomainModel], GetFavoriteGameRepository<GetGamesLocaleDataSource, GameTransformer>>>
-//  @EnvironmentObject var favoriteGamePresenter: FavoriteGamePresenter
-
+  
   var body: some View {
     TabView {
       HomeView(homePresenter: homePresenter)
@@ -25,13 +23,13 @@ struct TabBarView: View {
           Image(systemName: "house")
           Text(LocalizedLang.home)
         }
-
+      
       SearchGameView(searchGamePresenter: searchGamePresenter)
         .tabItem {
           Image(systemName: "magnifyingglass")
           Text(LocalizedLang.search)
         }
-
+      
       FavoriteGameView(favoriteGamePresenter: favoriteGamePresenter)
         .tabItem {
           Image(systemName: "text.badge.star")

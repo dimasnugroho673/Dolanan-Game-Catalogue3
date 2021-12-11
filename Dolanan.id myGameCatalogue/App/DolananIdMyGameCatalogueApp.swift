@@ -25,12 +25,7 @@ struct DolananIdMyGameCatalogueApp: App {
   let favoriteGamePresenter = GetListPresenter(useCase: favoriteUseCase)
   let detailUserPresenter = GetDetailPresenter(useCase: userUseCase)
   let onboardingPresenter = UserEditPresenter(userUseCase: onboardingUseCase)
-//  let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome(), userUseCase: Injection.init().provideUser())
-//  let searchGamePresenter = SearchGamePresenter(searchGameUseCase: Injection.init().provideSearchGame(), userUseCase: Injection.init().provideUser())
-//  let favoriteGamePresenter = FavoriteGamePresenter(favoriteGameUseCase: Injection.init().provideFavoriteGame(), userUseCase: Injection.init().provideUser())
-//  let onboardingPresenter = OnboardingPresenter(userUseCase: Injection.init().provideOnboarding())
-//  let profilePresenter = ProfilePresenter(userUseCase: Injection.init().provideUser())
-
+  
   var body: some Scene {
     WindowGroup {
       ContentView()
